@@ -11,10 +11,8 @@ import HeaderComponent from './header-component';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 const drawerWidth = 240;
 
 const styles = (theme) => ({
