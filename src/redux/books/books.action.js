@@ -36,3 +36,31 @@ export const getBooks = () => {
     );
   };
 };
+
+export const addBookSuccess = (response) => ({
+  type: SUCCESS(BookstActionTypes.ADD_BOOK),
+  payload: response.data,
+});
+
+export const addBookRequest = () => ({
+  type: REQUEST(BookstActionTypes.ADD_BOOK),
+});
+
+export const addBookFailure = (err) => ({
+  type: FAILURE(BookstActionTypes.ADD_BOOK),
+  error: err,
+});
+export const addBook = (param) => {
+  return (dispatch) => {
+    const requestUrl = `${endPoint}`;
+    dispatch(addBookRequest());
+    axios.post(requestUrl, param).then(
+      (response) => {
+        dispatch(addBookSuccess(response));
+      },
+      (err) => {
+        dispatch(addBookFailure(err));
+      }
+    );
+  };
+};

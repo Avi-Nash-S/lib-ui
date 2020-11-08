@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBooks } from '../redux/books/books.action';
+import { getBooks, addBook } from '../redux/books/books.action';
 import '../view-styles/landingPage-styles.scss';
 import CardListComponent from '../components/cardList-component';
 import LandingPageLayout from '../components/landingPage-layout-component';
-
+import Button from '@material-ui/core/Button';
+import AddBook from '../components/addBookForm';
 class landingPageViews extends Component {
   constructor(props) {
     super(props);
     this.state = {
       books: [],
+      openAddBook: false,
     };
   }
   componentDidMount() {
@@ -30,13 +32,34 @@ class landingPageViews extends Component {
       });
     }
   }
+  handleAddBookBtnClick = () => {
+    this.setState({
+      openAddBook: true,
+    });
+  };
 
+  handleClose = () => {
+    this.setState({
+      openAddBook: false,
+    });
+  };
+  handleAddBook = (param) => {
+    this.props.addBook(param);
+  };
   render() {
     const { history } = this.props;
-    const { books } = this.state;
+    const { books, openAddBook } = this.state;
     return (
       <LandingPageLayout history={history}>
+        {this.props.data.currentTab === 'Your Books' && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant='contained' color='primary' onClick={this.handleAddBookBtnClick}>
+              Add Book
+            </Button>
+          </div>
+        )}
         <CardListComponent books={books} isLoading={false} history={history} currentTab={this.props.data.currentTab} />
+        <AddBook openAddBook={openAddBook} handleClose={this.handleClose} handleAddBook={this.handleAddBook} />
       </LandingPageLayout>
     );
   }
@@ -48,6 +71,7 @@ const mapStateToProps = (storeState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
+  addBook: (param) => dispatch(addBook(param)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(landingPageViews);

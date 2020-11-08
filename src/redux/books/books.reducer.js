@@ -3,6 +3,7 @@ import { SUCCESS, REQUEST, FAILURE } from '../action-type.util';
 
 const INITIAL_STATE = {
   books: [],
+  book: {},
   pending: false,
   currentTab: 'All Books',
 };
@@ -30,6 +31,23 @@ const bookReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentTab: action.payload,
+      };
+    case REQUEST(BookstActionTypes.ADD_BOOK):
+      return {
+        ...state,
+        pending: true,
+      };
+    case SUCCESS(BookstActionTypes.ADD_BOOK):
+      return {
+        ...state,
+        book: action.payload,
+        pending: false,
+      };
+    case FAILURE(BookstActionTypes.ADD_BOOK):
+      return {
+        ...state,
+        book: {},
+        pending: false,
       };
     default:
       return state;

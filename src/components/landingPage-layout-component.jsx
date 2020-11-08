@@ -11,12 +11,17 @@ import HeaderComponent from './header-component';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-const drawerWidth = 340;
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+const drawerWidth = 240;
 
 const styles = (theme) => ({
   root: {
     display: 'flex',
+    height: '100vh',
+    backgroundColor: '#efefef',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -28,9 +33,11 @@ const styles = (theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    border: 'none',
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: '20vw',
+    border: 'none',
   },
   drawerHeader: {
     display: 'flex',
@@ -47,6 +54,7 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+    backgroundColor: '#efefef',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -183,6 +191,12 @@ class LandingPageLayout extends React.Component {
             <List>
               {['All Books', 'Your Books', 'Book Request'].map((text, index) => (
                 <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === currentTab}>
+                  <ListItemIcon>
+                    <MenuBookIcon />
+                    {/* {(text = 'All Books' && <LocalLibraryIcon />)}
+                    {(text = 'Your Books' && <MenuBookIcon />)}
+                    {(text = 'Book Request' && <LocalLibraryIcon />)} */}
+                  </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}

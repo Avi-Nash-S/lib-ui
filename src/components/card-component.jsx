@@ -75,13 +75,16 @@ const CardComponent = ({ book, isLoading, history }) => {
             <Typography variant='body2' color='textSecondary'>
               <DescriptionContainer>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <h3 style={{ margin: '0.3rem' }}>Subject</h3>&nbsp; {book.subject}
+                  {/* <h3 style={{ margin: '0.3rem' }}>Subject</h3>&nbsp; {book.subject} */}
+                  <b>Subject</b>&nbsp; {book.subject}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <h3 style={{ margin: '0.3rem' }}>Author</h3>&nbsp; {book.author}
+                  {/* <h3 style={{ margin: '0.3rem' }}>Author</h3>&nbsp; {book.author} */}
+                  <b>Author</b>&nbsp; {book.author}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <h3 style={{ margin: '0.3rem' }}>Published By</h3>&nbsp; {book.publisher}
+                  {/* <h3 style={{ margin: '0.3rem' }}>Published By</h3>&nbsp; {book.publisher} */}
+                  <b>Published By</b>&nbsp; {book.publisher}
                 </span>
               </DescriptionContainer>
             </Typography>
