@@ -45,6 +45,8 @@ class landingPageViews extends Component {
   };
   handleAddBook = (param) => {
     this.props.addBook(param);
+    this.props.getBooks();
+    this.setState({ openAddBook: false });
   };
   render() {
     const { history } = this.props;
