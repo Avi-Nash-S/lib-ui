@@ -59,7 +59,7 @@ const CardComponent = ({ book, isLoading, history }) => {
           >
             <img
               style={{ height: '160px', width: '160px' }}
-              src={`http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`}
+              src={`http://covers.openlibrary.org/b/isbn/${book.isbn || 9780385533225}-L.jpg`}
               alt=''
               onError={(e) => (e.target.src = `http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`)}
             />
