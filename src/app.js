@@ -1,20 +1,17 @@
 import React from 'react';
-import './app.css';
-// import SignIn from './Components/Authentication/LoginPage';
-import SignUp from './Components/Authentication/SignupPage';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import LandingPageViews from './views/landingPage-views';
+import LoginPage from './views/loginPage-views';
+// import CardDetailsViews from './views/cardDetails-views'
 
-class App extends React.Component {
-  onFormSubmit = (event) => {
-    console.log('Event : ', event);
-  };
-  render() {
-    return (
-      <div className='App'>
-        {/* <SignIn onFormSubmit={this.onFormSubmit} /> */}
-        <SignUp />
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Switch>
+      <Route exact path='/' component={LandingPageViews} />
+      <Route exact path={`/login`} component={LoginPage} />
+      {/* <Route path={`/:id`} component={CardDetailsViews} /> */}
+    </Switch>
+  );
+};
 
-export default App;
+export default withRouter(App);
