@@ -17,6 +17,10 @@ export const getBooksFailure = (err) => ({
   type: FAILURE(BookstActionTypes.GET_BOOKS),
   error: err,
 });
+export const setCurrentTab = (currentTab) => ({
+  type: BookstActionTypes.SET_CURRENTTAB,
+  payload: currentTab,
+});
 
 export const getBooks = () => {
   return (dispatch) => {

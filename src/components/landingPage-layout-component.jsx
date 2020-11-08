@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
-import { getBooks } from '../redux/books/books.action';
+import { getBooks, setCurrentTab } from '../redux/books/books.action';
 import { compose } from 'redux';
 import HeaderComponent from './header-component';
 import List from '@material-ui/core/List';
@@ -103,6 +103,7 @@ class LandingPageLayout extends React.Component {
       searchQuery: null,
       filterQuery: null,
       searchIconDisplay: true,
+      currentTab: 'All Books',
     };
   }
   handleDrawer = () => {
@@ -111,13 +112,10 @@ class LandingPageLayout extends React.Component {
     }));
   };
   onSearch = () => {
-    this.setState(
-      (prevState) => ({
-        searchIconDisplay: !prevState.searchIconDisplay,
-        filterQuery: null,
-      }),
-      () => this.props.getBooks()
-    );
+    this.setState((prevState) => ({
+      searchIconDisplay: !prevState.searchIconDisplay,
+      filterQuery: null,
+    }));
   };
   onSearchClear = () => {
     this.setState(
@@ -129,14 +127,17 @@ class LandingPageLayout extends React.Component {
   };
   onSearchUpdate = (event) => {
     this.setState({
-      searchQuery: `?search=${event.target.value}`,
+      searchQuery: event.target.value,
     });
   };
   onListItemSelect = (param) => {
-    console.log('test : ', param);
+    this.setState({
+      currentTab: param,
+    });
+    this.props.setCurrentTab(param);
   };
   render() {
-    const { open, searchIconDisplay, searchQuery } = this.state;
+    const { open, searchIconDisplay, searchQuery, currentTab } = this.state;
     const { classes, getBooks, history } = this.props;
     return (
       <>
@@ -181,7 +182,7 @@ class LandingPageLayout extends React.Component {
 
             <List>
               {['All Books', 'Your Books', 'Book Request'].map((text, index) => (
-                <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === 'All Books'}>
+                <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === currentTab}>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}
@@ -202,12 +203,9 @@ class LandingPageLayout extends React.Component {
   }
 }
 
-const mapStateToProps = (storeState) => ({
-  data: storeState.books,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
+  setCurrentTab: (currentTab) => dispatch(setCurrentTab(currentTab)),
 });
 
-export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(LandingPageLayout);
+export default compose(withStyles(styles), connect(null, mapDispatchToProps))(LandingPageLayout);

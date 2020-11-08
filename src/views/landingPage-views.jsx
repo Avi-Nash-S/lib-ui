@@ -36,7 +36,7 @@ class landingPageViews extends Component {
     const { books } = this.state;
     return (
       <LandingPageLayout history={history}>
-        <CardListComponent books={books} isLoading={false} history={history} />
+        <CardListComponent books={books} isLoading={false} history={history} currentTab={this.props.data.currentTab} />
       </LandingPageLayout>
     );
   }

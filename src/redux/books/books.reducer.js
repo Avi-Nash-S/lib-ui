@@ -4,6 +4,7 @@ import { SUCCESS, REQUEST, FAILURE } from '../action-type.util';
 const INITIAL_STATE = {
   books: [],
   pending: false,
+  currentTab: 'All Books',
 };
 
 const bookReducer = (state = INITIAL_STATE, action) => {
@@ -24,6 +25,11 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         ...state,
         books: [],
         pending: false,
+      };
+    case BookstActionTypes.SET_CURRENTTAB:
+      return {
+        ...state,
+        currentTab: action.payload,
       };
     default:
       return state;
