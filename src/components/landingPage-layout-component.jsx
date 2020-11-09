@@ -18,7 +18,8 @@ const drawerWidth = 240;
 const styles = (theme) => ({
   root: {
     display: 'flex',
-    height: '100vh',
+    height: 'auto',
+    minHeight: '100vh',
     backgroundColor: '#efefef',
   },
   appBar: {
@@ -105,7 +106,7 @@ class LandingPageLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: true,
       searchQuery: null,
       filterQuery: null,
       searchIconDisplay: true,

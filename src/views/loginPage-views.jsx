@@ -1,18 +1,19 @@
-import React, { Component } from "react";
-import SignIn from "../components/signIn-component";
-import SignUp from "../components/signUp-component";
-
-import { LoginContainer } from "../view-styles/loginPage-styles";
+import React, { Component } from 'react';
+// import SignIn from "../components/signIn-component";
+// import SignUp from "../components/signUp-component";
+import SignIn from '../components/loginPage';
+import SignUp from '../components/signupPage';
+import { LoginContainer } from '../view-styles/loginPage-styles';
 
 const pageMode = {
-  LOGIN: "LOGIN",
-  REGISTER: "REGISTER",
+  LOGIN: 'LOGIN',
+  REGISTER: 'REGISTER',
 };
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageState: "LOGIN",
+      pageState: 'LOGIN',
     };
   }
   onLoginClick = () => {
