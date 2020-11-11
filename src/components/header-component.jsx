@@ -11,8 +11,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
-import { logoutUser } from '../redux/forms/forms.action';
+// import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -27,8 +26,7 @@ function HeaderComponent({
   onSearchClear,
   handleDrawer,
   onSearchUpdate,
-  user,
-  logout,
+  // logout,
 }) {
   return (
     <div>
@@ -84,8 +82,8 @@ function HeaderComponent({
               />
             </div>
           </span>
-          {user ? (
-            <Tooltip title={user}>
+          {true ? (
+            <Tooltip title={'Libin'}>
               <Avatar
                 aria-label='recipe'
                 style={{
@@ -95,9 +93,9 @@ function HeaderComponent({
                   position: 'absolute',
                   right: '25px',
                 }}
-                onClick={() => logout()}
+                onClick={() => history.push('/login')}
               >
-                {user.toUpperCase().charAt(0)}
+                {'Libin'.toUpperCase().charAt(0)}
               </Avatar>
             </Tooltip>
           ) : (
@@ -118,12 +116,11 @@ function HeaderComponent({
   );
 }
 
-const mapStateToProps = (storeState) => ({
-  user: storeState.data.loggedIn,
-});
+// const mapStateToProps = (storeState) => ({
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logoutUser()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
+// export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
+export default HeaderComponent;
