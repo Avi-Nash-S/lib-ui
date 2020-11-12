@@ -1,0 +1,149 @@
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import '../view-styles/addBookForm.scss';
+
+class AddBook extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isbn: '',
+      title: '',
+      author: '',
+      publisher: '',
+      subject: '',
+      available: false,
+    };
+  }
+  handleSbnChange = (event) => {
+    console.log(event.target.name);
+    console.log('sbn : ', event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+  handleAvailabilityChange = (event) => {
+    let temp = event.target.value === 'Yes' ? true : false;
+    console.log('avaialble : ', temp);
+    this.setState({
+      available: temp,
+    });
+  };
+  handleAddBook = () => {
+    const { isbn, title, author, publisher, subject, available } = this.state;
+    console.log('State : ', this.state);
+    this.props.handleAddBook({
+      isbn: isbn,
+      available: available,
+      ownerId: '1234',
+      title: title,
+      author: author,
+      publisher: publisher,
+      subject: subject,
+    });
+  };
+  render() {
+    const { openAddBook, handleClose } = this.props;
+    return (
+      <div>
+        <Dialog
+          open={openAddBook}
+          onClose={handleClose}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <DialogTitle id='alert-dialog-title'>{'Add Book'}</DialogTitle>
+          <DialogContent>
+            <FormControl>
+              <TextField
+                id='outlined-basic'
+                name='isbn'
+                label='ISBN'
+                variant='outlined'
+                // helperText='Required'
+                value={this.state.isbn}
+                required
+                onChange={this.handleSbnChange}
+              />
+              <br />
+              <TextField
+                id='outlined-basic'
+                name='title'
+                label='Title'
+                variant='outlined'
+                // helperText='Required'
+                value={this.state.title}
+                required
+                onChange={this.handleSbnChange}
+              />
+              <br />
+              <TextField
+                id='outlined-basic'
+                name='author'
+                label='Author'
+                variant='outlined'
+                // helperText='Required'
+                value={this.state.author}
+                required
+                onChange={this.handleSbnChange}
+              />
+              <br />
+              <TextField
+                id='outlined-basic'
+                name='publisher'
+                label='Publisher'
+                variant='outlined'
+                // helperText='Required'
+                value={this.state.publisher}
+                required
+                onChange={this.handleSbnChange}
+              />
+              <br />
+              <TextField
+                id='outlined-basic'
+                name='subject'
+                label='Subject'
+                variant='outlined'
+                // helperText='Required'
+                value={this.state.subject}
+                required
+                onChange={this.handleSbnChange}
+              />
+              <br />
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='Available'
+                //   value={this.state.available}
+                required
+                onChange={this.handleAvailabilityChange}
+                helperText='Please select availability'
+                variant='outlined'
+              >
+                {['Yes', 'No'].map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormControl>
+            <br />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleAddBook} color='primary' autoFocus>
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
+}
+
+export default AddBook;
