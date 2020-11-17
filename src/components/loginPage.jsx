@@ -50,17 +50,21 @@ export default function SignIn(props) {
         </Typography>
         <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
           <TextField
+            value={props.userName}
             variant='outlined'
             margin='normal'
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
+            id='userName'
+            label='Username or Email'
+            name='userName'
             autoComplete='email'
             autoFocus
+            onChange={props.onInputChange}
           />
           <TextField
+            value={props.password}
+            onChange={props.onInputChange}
             variant='outlined'
             margin='normal'
             required
@@ -71,7 +75,7 @@ export default function SignIn(props) {
             id='password'
             autoComplete='current-password'
           />
-          <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={props.onFormSubmit}>
+          <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={props.onSignIn}>
             Sign In
           </Button>
         </form>
