@@ -108,6 +108,7 @@ class LoginPage extends Component {
             email={email}
             userName={userName}
             password={password}
+            loading={loading}
             onSignInClick={this.onLoginClick}
             onSignUpClick={this.onRegisterClick}
             onSignup={this.onSignUp}

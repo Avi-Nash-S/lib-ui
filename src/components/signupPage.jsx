@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../static/library.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const classes = useStyles();
-
+  const { loading } = props;
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -136,7 +137,7 @@ export default function SignUp(props) {
           className={classes.submit}
           onClick={props.onSignup}
         >
-          Sign Up
+          {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Sign Up'}
         </Button>
         <Grid container justify='flex-end'>
           <Grid item>

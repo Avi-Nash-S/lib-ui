@@ -44,6 +44,7 @@ class landingPageViews extends Component {
     });
   };
   handleAddBook = (param) => {
+    param['ownerId'] = this.props.userData.user._id;
     this.props.addBook(param);
     this.props.getBooks();
     this.setState({ openAddBook: false });
@@ -51,16 +52,23 @@ class landingPageViews extends Component {
   render() {
     const { history } = this.props;
     const { books, openAddBook } = this.state;
+    console.log(books);
     return (
       <LandingPageLayout history={history}>
-        {this.props.data.currentTab === 'Your Books' && (
+        {this.props.data.currentTab === 'Your Books' && this.props.userData.user && (
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant='contained' color='primary' onClick={this.handleAddBookBtnClick}>
               Add Book
             </Button>
           </div>
         )}
-        <CardListComponent books={books} isLoading={false} history={history} currentTab={this.props.data.currentTab} />
+        <CardListComponent
+          books={books}
+          isLoading={false}
+          history={history}
+          currentTab={this.props.data.currentTab}
+          userData={this.props.userData.user}
+        />
         <AddBook openAddBook={openAddBook} handleClose={this.handleClose} handleAddBook={this.handleAddBook} />
       </LandingPageLayout>
     );
@@ -69,6 +77,7 @@ class landingPageViews extends Component {
 
 const mapStateToProps = (storeState) => ({
   data: storeState.books,
+  userData: storeState.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -24,15 +24,19 @@ export const onLoginFailuer = (response) => ({
   type: FAILURE(UserActionTypes.ON_LOGIN),
   payload: response.data,
 });
+
 export const onSignUpRequest = () => ({
   type: REQUEST(UserActionTypes.ON_SIGNUP),
 });
-export const onSignUpFailuer = () => ({
+export const onSignUpFailuer = (error) => ({
   type: FAILURE(UserActionTypes.ON_SIGNUP),
+  payload: error,
 });
-export const onSignUpSuccess = () => ({
+export const onSignUpSuccess = (response) => ({
   type: SUCCESS(UserActionTypes.ON_SIGNUP),
+  payload: response.data,
 });
+
 export const onLogoutRequest = (err) => ({
   type: REQUEST(UserActionTypes.ON_LOGOUT),
   error: err,
@@ -80,13 +84,13 @@ const getUserDetails = (id) => {
   };
 };
 export const signup = (param) => {
-  console.log('On signUp', param);
   return (dispatch) => {
     const requestUrl = `${endPoint}register`;
     dispatch(onSignUpRequest());
     axios.post(requestUrl, param).then(
       (response) => {
         dispatch(onSignUpSuccess(response));
+        dispatch(getUserDetails(response.data._id));
       },
       (err) => {
         dispatch(onSignUpFailuer(err));

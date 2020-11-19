@@ -22,26 +22,21 @@ class AddBook extends React.Component {
     };
   }
   handleSbnChange = (event) => {
-    console.log(event.target.name);
-    console.log('sbn : ', event.target.value);
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
   handleAvailabilityChange = (event) => {
     let temp = event.target.value === 'Yes' ? true : false;
-    console.log('avaialble : ', temp);
     this.setState({
       available: temp,
     });
   };
   handleAddBook = () => {
     const { isbn, title, author, publisher, subject, available } = this.state;
-    console.log('State : ', this.state);
     this.props.handleAddBook({
       isbn: isbn,
       available: available,
-      ownerId: '1234',
       title: title,
       author: author,
       publisher: publisher,

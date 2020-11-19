@@ -49,9 +49,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
         loginError: false,
       };
     case SUCCESS(UserActionTypes.ON_SIGNUP):
-      console.logh('User Created :', action.payload);
       return {
         ...state,
+        accessToken: action.payload.accessToken,
+        userId: action.payload._id,
       };
     case FAILURE(UserActionTypes.ON_SIGNUP):
       return {
