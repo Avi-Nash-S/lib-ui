@@ -2,9 +2,11 @@ import { UserActionTypes } from './user.types';
 import { SUCCESS, REQUEST, FAILURE } from '../action-type.util';
 
 const INITIAL_STATE = {
-  user: {},
+  user: undefined,
   loading: false,
   loginError: false,
+  accessToken: undefined,
+  userId: undefined,
   currentTab: 'All Books',
 };
 
@@ -19,15 +21,28 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case SUCCESS(UserActionTypes.ON_LOGIN):
       return {
         ...state,
+        accessToken: action.payload.accessToken,
+        userId: action.payload._id,
       };
     case FAILURE(UserActionTypes.ON_LOGIN):
-      console.log('Reached');
       return {
         ...state,
         loading: false,
         loginError: true,
       };
-    case REQUEST(REQUEST(UserActionTypes.ON_SIGNUP)):
+    case SUCCESS(UserActionTypes.GET_USER):
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+      };
+    case FAILURE(UserActionTypes.GET_USER):
+      return {
+        ...state,
+        loading: false,
+        loginError: true,
+      };
+    case REQUEST(UserActionTypes.ON_SIGNUP):
       return {
         ...state,
         loading: true,

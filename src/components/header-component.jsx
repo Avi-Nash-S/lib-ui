@@ -26,6 +26,7 @@ function HeaderComponent({
   onSearchClear,
   handleDrawer,
   onSearchUpdate,
+  userDetails,
   // logout,
 }) {
   return (
@@ -83,7 +84,7 @@ function HeaderComponent({
             </div>
           </span>
           {true ? (
-            <Tooltip title={'Libin'}>
+            <Tooltip title={userDetails ? userDetails.firstName : 'Libin'}>
               <Avatar
                 aria-label='recipe'
                 style={{
@@ -95,7 +96,7 @@ function HeaderComponent({
                 }}
                 onClick={() => history.push('/login')}
               >
-                {'Libin'.toUpperCase().charAt(0)}
+                {userDetails ? userDetails.firstName.toUpperCase().charAt(0) : 'Libin'.toUpperCase().charAt(0)}
               </Avatar>
             </Tooltip>
           ) : (

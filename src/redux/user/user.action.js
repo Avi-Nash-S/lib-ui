@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UserActionTypes } from './user.types';
 import { REQUEST, SUCCESS, FAILURE } from '../action-type.util';
 
-const endPoint = 'https://lib-mate.herokuapp.com/';
+const endPoint = 'https://lib-mate.herokuapp.com/users/';
 
 export const onLoginRequest = (response) => ({
   type: REQUEST(UserActionTypes.ON_LOGIN),
@@ -10,6 +10,14 @@ export const onLoginRequest = (response) => ({
 });
 export const onLoginSuccess = (response) => ({
   type: SUCCESS(UserActionTypes.ON_LOGIN),
+  payload: response.data,
+});
+export const onGetUserSuccess = (response) => ({
+  type: SUCCESS(UserActionTypes.GET_USER),
+  payload: response.data,
+});
+export const onGetUserFailuer = (response) => ({
+  type: FAILURE(UserActionTypes.GET_USER),
   payload: response.data,
 });
 export const onLoginFailuer = (response) => ({
@@ -40,26 +48,37 @@ export const onLogoutFailuer = (err) => ({
 
 export const login = (username, password) => {
   return (dispatch) => {
-    const requestUrl = `${endPoint}user`;
+    const requestUrl = `${endPoint}login`;
     dispatch(onLoginRequest());
     axios
-      .get(requestUrl, {
+      .post(requestUrl, {
         userName: username,
         password: password,
       })
       .then(
         (response) => {
-          console.log('Onlogin : ', response);
-          // dispatch(onLoginSuccess(response));
+          dispatch(onLoginSuccess(response));
+          dispatch(getUserDetails(response.data._id));
         },
         (err) => {
           dispatch(onLoginFailuer(err));
-          console.log('Error : ', err);
         }
       );
   };
 };
-
+const getUserDetails = (id) => {
+  return (dispatch) => {
+    const requestUrl = `${endPoint}${id}`;
+    axios.get(requestUrl).then(
+      (response) => {
+        dispatch(onGetUserSuccess(response));
+      },
+      (err) => {
+        dispatch(onGetUserFailuer(err));
+      }
+    );
+  };
+};
 export const signup = (param) => {
   console.log('On signUp', param);
   return (dispatch) => {

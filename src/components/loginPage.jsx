@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../static/library.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
   const classes = useStyles();
+  const { userName, onInputChange, password, onSignIn, loading } = props;
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -50,7 +52,7 @@ export default function SignIn(props) {
         </Typography>
         <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
           <TextField
-            value={props.userName}
+            value={userName}
             variant='outlined'
             margin='normal'
             required
@@ -60,11 +62,11 @@ export default function SignIn(props) {
             name='userName'
             autoComplete='email'
             autoFocus
-            onChange={props.onInputChange}
+            onChange={onInputChange}
           />
           <TextField
-            value={props.password}
-            onChange={props.onInputChange}
+            value={password}
+            onChange={onInputChange}
             variant='outlined'
             margin='normal'
             required
@@ -75,8 +77,8 @@ export default function SignIn(props) {
             id='password'
             autoComplete='current-password'
           />
-          <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={props.onSignIn}>
-            Sign In
+          <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={onSignIn}>
+            {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Sign In'}
           </Button>
         </form>
         <Grid container>

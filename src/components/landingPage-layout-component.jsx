@@ -151,6 +151,7 @@ class LandingPageLayout extends React.Component {
         <div className={classes.root}>
           <HeaderComponent
             searchIconDisplay={searchIconDisplay}
+            userDetails={this.props.data.user ? this.props.data.user : null}
             searchQuery={searchQuery}
             getBooks={getBooks}
             history={history}
@@ -216,9 +217,13 @@ class LandingPageLayout extends React.Component {
   }
 }
 
+const mapStateToProps = (storeState) => ({
+  data: storeState.user,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
   setCurrentTab: (currentTab) => dispatch(setCurrentTab(currentTab)),
 });
 
-export default compose(withStyles(styles), connect(null, mapDispatchToProps))(LandingPageLayout);
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(LandingPageLayout);

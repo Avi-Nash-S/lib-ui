@@ -27,7 +27,7 @@ class LoginPage extends Component {
     };
   }
   componentDidUpdate(prevProps) {
-    const { loginError } = this.props.data;
+    const { loginError, user } = this.props.data;
     if (prevProps.data.loginError !== loginError && loginError) {
       this.setState({
         messageOpen: true,
@@ -37,6 +37,10 @@ class LoginPage extends Component {
         this.handleSnackbarClose();
       }, 6000);
     }
+    if (prevProps.data.user !== user && user) {
+      this.props.history.push('/');
+    }
+    // if()
   }
   onLoginClick = () => {
     this.setState({
@@ -67,7 +71,7 @@ class LoginPage extends Component {
     let tempsignUpdetails = {
       firstName: firstName,
       lastName: lastName,
-      email: email,
+      userEmail: email,
       userName: userName,
       password: password,
     };
@@ -85,6 +89,7 @@ class LoginPage extends Component {
   };
   render() {
     const { pageState, firstName, lastName, email, userName, password, messageOpen, message } = this.state;
+    const { loading } = this.props.data;
     return (
       <LoginContainer>
         {pageState === pageMode.LOGIN ? (
@@ -94,6 +99,7 @@ class LoginPage extends Component {
             onSignUpClick={this.onRegisterClick}
             onSignIn={this.onSignIn}
             onInputChange={this.onInputChange}
+            loading={loading}
           />
         ) : (
           <SignUp
