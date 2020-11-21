@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   books: [],
   book: {},
   pending: false,
+  addedBook: false,
   currentTab: 'All Books',
 };
 
@@ -36,12 +37,14 @@ const bookReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         pending: true,
+        addedBook: false,
       };
     case SUCCESS(BookstActionTypes.ADD_BOOK):
       return {
         ...state,
         book: action.payload,
         pending: false,
+        addedBook: true,
       };
     case FAILURE(BookstActionTypes.ADD_BOOK):
       return {

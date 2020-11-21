@@ -7,6 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import '../view-styles/addBookForm.scss';
 
 class AddBook extends React.Component {
@@ -18,7 +19,7 @@ class AddBook extends React.Component {
       author: '',
       publisher: '',
       subject: '',
-      available: false,
+      available: true,
     };
   }
   handleSbnChange = (event) => {
@@ -34,17 +35,21 @@ class AddBook extends React.Component {
   };
   handleAddBook = () => {
     const { isbn, title, author, publisher, subject, available } = this.state;
-    this.props.handleAddBook({
-      isbn: isbn,
-      available: available,
-      title: title,
-      author: author,
-      publisher: publisher,
-      subject: subject,
-    });
+    if (!isbn || !title || !author || !publisher || !subject) {
+      alert('Please provide all the input');
+    } else {
+      this.props.handleAddBook({
+        isbn: isbn,
+        available: available,
+        title: title,
+        author: author,
+        publisher: publisher,
+        subject: subject,
+      });
+    }
   };
   render() {
-    const { openAddBook, handleClose } = this.props;
+    const { openAddBook, handleClose, loading } = this.props;
     return (
       <div>
         <Dialog
@@ -61,7 +66,6 @@ class AddBook extends React.Component {
                 name='isbn'
                 label='ISBN'
                 variant='outlined'
-                // helperText='Required'
                 value={this.state.isbn}
                 required
                 onChange={this.handleSbnChange}
@@ -72,7 +76,6 @@ class AddBook extends React.Component {
                 name='title'
                 label='Title'
                 variant='outlined'
-                // helperText='Required'
                 value={this.state.title}
                 required
                 onChange={this.handleSbnChange}
@@ -83,7 +86,6 @@ class AddBook extends React.Component {
                 name='author'
                 label='Author'
                 variant='outlined'
-                // helperText='Required'
                 value={this.state.author}
                 required
                 onChange={this.handleSbnChange}
@@ -94,7 +96,6 @@ class AddBook extends React.Component {
                 name='publisher'
                 label='Publisher'
                 variant='outlined'
-                // helperText='Required'
                 value={this.state.publisher}
                 required
                 onChange={this.handleSbnChange}
@@ -105,7 +106,6 @@ class AddBook extends React.Component {
                 name='subject'
                 label='Subject'
                 variant='outlined'
-                // helperText='Required'
                 value={this.state.subject}
                 required
                 onChange={this.handleSbnChange}
@@ -118,7 +118,6 @@ class AddBook extends React.Component {
                 //   value={this.state.available}
                 required
                 onChange={this.handleAvailabilityChange}
-                helperText='Please select availability'
                 variant='outlined'
               >
                 {['Yes', 'No'].map((value) => (
@@ -132,7 +131,7 @@ class AddBook extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleAddBook} color='primary' autoFocus>
-              Add
+              {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Sign In'}
             </Button>
           </DialogActions>
         </Dialog>

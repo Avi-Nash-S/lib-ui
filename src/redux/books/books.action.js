@@ -57,6 +57,7 @@ export const addBook = (param) => {
     axios.post(requestUrl, param).then(
       (response) => {
         dispatch(addBookSuccess(response));
+        dispatch(getBooks());
       },
       (err) => {
         dispatch(addBookFailure(err));

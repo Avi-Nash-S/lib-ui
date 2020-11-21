@@ -6,12 +6,17 @@ import CardListComponent from '../components/cardList-component';
 import LandingPageLayout from '../components/landingPage-layout-component';
 import Button from '@material-ui/core/Button';
 import AddBook from '../components/addBookForm';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 class landingPageViews extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
       openAddBook: false,
+      showSuccessNotification: false,
+      message: '',
     };
   }
   componentDidMount() {
@@ -26,12 +31,23 @@ class landingPageViews extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
+    const { data } = this.props;
+    if (prevProps.data.addedBook !== data.addedBook && data.addedBook) {
       this.setState({
-        books: this.props.data.books,
+        showSuccessNotification: true,
+        message: 'Book Added Successfully',
       });
+      setTimeout(() => {
+        this.handleSnackbarClose();
+      }, 6000);
     }
   }
+  handleSnackbarClose = () => {
+    this.setState({
+      showSuccessNotification: false,
+      message: '',
+    });
+  };
   handleAddBookBtnClick = () => {
     this.setState({
       openAddBook: true,
@@ -46,13 +62,11 @@ class landingPageViews extends Component {
   handleAddBook = (param) => {
     param['ownerId'] = this.props.userData.user._id;
     this.props.addBook(param);
-    this.props.getBooks();
     this.setState({ openAddBook: false });
   };
   render() {
-    const { history } = this.props;
-    const { books, openAddBook } = this.state;
-    console.log(books);
+    const { history, data } = this.props;
+    const { openAddBook, showSuccessNotification, message } = this.state;
     return (
       <LandingPageLayout history={history}>
         {this.props.data.currentTab === 'Your Books' && this.props.userData.user && (
@@ -63,13 +77,38 @@ class landingPageViews extends Component {
           </div>
         )}
         <CardListComponent
-          books={books}
+          books={data.books}
           isLoading={false}
           history={history}
           currentTab={this.props.data.currentTab}
           userData={this.props.userData.user}
         />
-        <AddBook openAddBook={openAddBook} handleClose={this.handleClose} handleAddBook={this.handleAddBook} />
+        <AddBook
+          openAddBook={openAddBook}
+          handleClose={this.handleClose}
+          handleAddBook={this.handleAddBook}
+          loading={data.pending}
+        />
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={showSuccessNotification}
+            // autoHideDuration={6000}
+            onClose={this.handleSnackbarClose}
+            onBlur={this.handleSnackbarClose}
+            message={message}
+            action={
+              <React.Fragment>
+                <IconButton size='small' aria-label='close' color='inherit' onClick={this.handleSnackbarClose}>
+                  <CloseIcon fontSize='small' />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
       </LandingPageLayout>
     );
   }

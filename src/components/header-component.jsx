@@ -84,7 +84,7 @@ function HeaderComponent({
             </div>
           </span>
           {true ? (
-            <Tooltip title={userDetails ? userDetails.firstName : 'Libin'}>
+            <Tooltip title={userDetails ? userDetails.firstName : 'Login'}>
               <Avatar
                 aria-label='recipe'
                 style={{
@@ -96,7 +96,7 @@ function HeaderComponent({
                 }}
                 onClick={() => history.push('/login')}
               >
-                {userDetails ? userDetails.firstName.toUpperCase().charAt(0) : 'Libin'.toUpperCase().charAt(0)}
+                {userDetails ? userDetails.firstName.toUpperCase().charAt(0) : 'Login'.toUpperCase().charAt(0)}
               </Avatar>
             </Tooltip>
           ) : (
