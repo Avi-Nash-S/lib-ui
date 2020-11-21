@@ -8,6 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardComponent = ({ book, isLoading, history }) => {
+const CardComponent = ({ book, isLoading, history, currentTab }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -72,22 +73,60 @@ const CardComponent = ({ book, isLoading, history }) => {
               <Skeleton animation='wave' height={10} width={210} />
             </React.Fragment>
           ) : (
-            <Typography variant='body2' color='textSecondary'>
-              <DescriptionContainer>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Subject</h3>&nbsp; {book.subject} */}
-                  <b>Subject</b>&nbsp; {book.subject}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Author</h3>&nbsp; {book.author} */}
-                  <b>Author</b>&nbsp; {book.author}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Published By</h3>&nbsp; {book.publisher} */}
-                  <b>Published By</b>&nbsp; {book.publisher}
-                </span>
-              </DescriptionContainer>
-            </Typography>
+            <div>
+              <Typography variant='body2' color='textSecondary' align='center'>
+                <DescriptionContainer>
+                  <span
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 'large',
+                      fontWeight: '500',
+                    }}
+                  >
+                    By&nbsp; {book.author}
+                  </span>
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      lineHeight: '1.5em',
+                      height: '3em',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {book.subject}
+                  </span>
+
+                  <span
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: ' 0.67' }}
+                  >
+                    {book.publisher}
+                  </span>
+                </DescriptionContainer>
+              </Typography>
+              {currentTab === 'All Books' && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: '15px',
+                    lineHeight: ' 0.67',
+                  }}
+                >
+                  {book.available ? (
+                    <label style={{ color: 'green' }}>Available</label>
+                  ) : (
+                    <label style={{ color: 'red' }}>Unavailable</label>
+                  )}
+                  <Button color='primary' disabled={!book.available}>
+                    Request
+                  </Button>
+                </div>
+              )}
+            </div>
           )}
         </CardContent>
       </CardActionArea>

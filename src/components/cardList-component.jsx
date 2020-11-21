@@ -11,15 +11,31 @@ export default function CardListComponent({ books, isLoading, history, currentTa
           books.map(
             (book, index) =>
               book.ownerId === userData._id && (
-                <CardComponent book={book} isLoading={isLoading} key={index} history={history} />
+                <CardComponent
+                  book={book}
+                  isLoading={isLoading}
+                  key={index}
+                  history={history}
+                  currentTab={'Your Books'}
+                />
               )
           )}
         {currentTab === 'Your Books' && !userData && <h3>Please Login to see/add books!</h3>}
         {books &&
           currentTab === 'All Books' &&
-          books.map((book, index) => <CardComponent book={book} isLoading={isLoading} key={index} history={history} />)}
+          books.map((book, index) => (
+            <CardComponent book={book} isLoading={isLoading} key={index} history={history} currentTab={'All Books'} />
+          ))}
         {currentTab === 'Book Request' &&
-          [].map((book, index) => <CardComponent book={book} isLoading={isLoading} key={index} history={history} />)}
+          [].map((book, index) => (
+            <CardComponent
+              book={book}
+              isLoading={isLoading}
+              key={index}
+              history={history}
+              currentTab={'Book Request'}
+            />
+          ))}
       </div>
     </div>
   );

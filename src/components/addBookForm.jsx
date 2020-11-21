@@ -131,7 +131,7 @@ class AddBook extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleAddBook} color='primary' autoFocus>
-              {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Sign In'}
+              {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Add'}
             </Button>
           </DialogActions>
         </Dialog>
