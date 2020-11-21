@@ -17,10 +17,11 @@ class landingPageViews extends Component {
       openAddBook: false,
       showSuccessNotification: false,
       message: '',
+      accessToken: undefined,
     };
   }
   componentDidMount() {
-    const { data, getBooks } = this.props;
+    const { data, getBooks, userData } = this.props;
     if (Array.isArray(data.books) && data.books.length) {
       this.setState({
         books: data.books,
@@ -28,6 +29,13 @@ class landingPageViews extends Component {
     } else {
       getBooks();
     }
+    if (userData.user) {
+      localStorage.setItem('accessToken', userData.accessToken);
+    }
+    const accessToken = localStorage.getItem('accessToken');
+    this.setState({
+      accessToken: accessToken,
+    });
   }
 
   componentDidUpdate(prevProps) {
