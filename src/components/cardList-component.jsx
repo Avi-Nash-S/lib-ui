@@ -1,7 +1,7 @@
 import React from 'react';
 import CardComponent from '../components/card-component';
 
-export default function CardListComponent({ books, isLoading, history, currentTab, userData }) {
+export default function CardListComponent({ books, isLoading, history, currentTab, userData, onBookImageClick }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div className='lp-container'>
@@ -16,6 +16,7 @@ export default function CardListComponent({ books, isLoading, history, currentTa
                   isLoading={isLoading}
                   key={index}
                   history={history}
+                  onBookImageClick={onBookImageClick}
                   currentTab={'Your Books'}
                 />
               )
@@ -24,7 +25,14 @@ export default function CardListComponent({ books, isLoading, history, currentTa
         {books &&
           currentTab === 'All Books' &&
           books.map((book, index) => (
-            <CardComponent book={book} isLoading={isLoading} key={index} history={history} currentTab={'All Books'} />
+            <CardComponent
+              book={book}
+              isLoading={isLoading}
+              key={index}
+              history={history}
+              currentTab={'All Books'}
+              onBookImageClick={onBookImageClick}
+            />
           ))}
         {currentTab === 'Book Request' &&
           [].map((book, index) => (
@@ -34,6 +42,7 @@ export default function CardListComponent({ books, isLoading, history, currentTa
               key={index}
               history={history}
               currentTab={'Book Request'}
+              onBookImageClick={onBookImageClick}
             />
           ))}
       </div>

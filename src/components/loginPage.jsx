@@ -58,9 +58,9 @@ export default function SignIn(props) {
             required
             fullWidth
             id='userName'
-            label='Username or Email'
+            label='Username'
             name='userName'
-            autoComplete='email'
+            autoComplete='username'
             autoFocus
             onChange={onInputChange}
           />

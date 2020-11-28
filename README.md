@@ -1,5 +1,3 @@
-# Walmart
-
 Scalability & Modularity are taken into consideration while developing this application.
 
 - Card View with skeletal Loading

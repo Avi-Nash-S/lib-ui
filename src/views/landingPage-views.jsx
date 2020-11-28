@@ -9,7 +9,7 @@ import AddBook from '../components/addBookForm';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+import BookDetails from '../components/bookDetails';
 class landingPageViews extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +18,8 @@ class landingPageViews extends Component {
       showSuccessNotification: false,
       message: '',
       accessToken: undefined,
+      openBookdetails: false,
+      book: undefined,
     };
   }
   componentDidMount() {
@@ -72,9 +74,22 @@ class landingPageViews extends Component {
     this.props.addBook(param);
     this.setState({ openAddBook: false });
   };
+  openBookDetails = (book) => {
+    console.log('open : ', book);
+    this.setState({
+      openBookdetails: true,
+      book: book,
+    });
+  };
+  onBookdetailsModalClose = () => {
+    this.setState({
+      openBookdetails: false,
+      book: undefined,
+    });
+  };
   render() {
     const { history, data } = this.props;
-    const { openAddBook, showSuccessNotification, message } = this.state;
+    const { openAddBook, showSuccessNotification, message, openBookdetails, book } = this.state;
     return (
       <LandingPageLayout history={history}>
         {this.props.data.currentTab === 'Your Books' && this.props.userData.user && (
@@ -90,6 +105,7 @@ class landingPageViews extends Component {
           history={history}
           currentTab={this.props.data.currentTab}
           userData={this.props.userData.user}
+          onBookImageClick={this.openBookDetails}
         />
         <AddBook
           openAddBook={openAddBook}
@@ -97,6 +113,9 @@ class landingPageViews extends Component {
           handleAddBook={this.handleAddBook}
           loading={data.pending}
         />
+        {openBookdetails && (
+          <BookDetails openBookDetail={openBookdetails} book={book} onclose={this.onBookdetailsModalClose} />
+        )}
         <div>
           <Snackbar
             anchorOrigin={{

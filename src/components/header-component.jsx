@@ -19,7 +19,6 @@ function HeaderComponent({
   searchIconDisplay,
   searchQuery,
   getBooks,
-  history,
   open,
   classes,
   onSearch,
@@ -27,7 +26,7 @@ function HeaderComponent({
   handleDrawer,
   onSearchUpdate,
   userDetails,
-  // logout,
+  onLogOut,
 }) {
   return (
     <div>
@@ -83,7 +82,7 @@ function HeaderComponent({
               />
             </div>
           </span>
-          {true ? (
+          {userDetails ? (
             <Tooltip title={userDetails ? userDetails.firstName : 'Login'}>
               <Avatar
                 aria-label='recipe'
@@ -94,9 +93,9 @@ function HeaderComponent({
                   position: 'absolute',
                   right: '25px',
                 }}
-                onClick={() => history.push('/login')}
+                onClick={() => onLogOut()}
               >
-                {userDetails ? userDetails.firstName.toUpperCase().charAt(0) : 'Login'.toUpperCase().charAt(0)}
+                {userDetails && userDetails.firstName.toUpperCase().charAt(0)}
               </Avatar>
             </Tooltip>
           ) : (
@@ -107,7 +106,7 @@ function HeaderComponent({
                   position: 'absolute',
                   right: '25px',
                 }}
-                onClick={() => history.push('/login')}
+                onClick={() => onLogOut()}
               />
             </Tooltip>
           )}

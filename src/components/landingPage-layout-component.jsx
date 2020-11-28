@@ -143,9 +143,13 @@ class LandingPageLayout extends React.Component {
     });
     this.props.setCurrentTab(param);
   };
+  onLogOut = () => {
+    this.props.setCurrentTab('All Books');
+    this.props.history.push('/login');
+  };
   render() {
     const { open, searchIconDisplay, searchQuery, currentTab } = this.state;
-    const { classes, getBooks, history } = this.props;
+    const { classes, getBooks } = this.props;
     return (
       <>
         <div className={classes.root}>
@@ -154,13 +158,13 @@ class LandingPageLayout extends React.Component {
             userDetails={this.props.data.user ? this.props.data.user : null}
             searchQuery={searchQuery}
             getBooks={getBooks}
-            history={history}
             open={open}
             classes={classes}
             onSearch={this.onSearch}
             onSearchClear={this.onSearchClear}
             handleDrawer={this.handleDrawer}
             onSearchUpdate={this.onSearchUpdate}
+            onLogOut={this.onLogOut}
           />
           <Drawer
             className={classes.drawer}

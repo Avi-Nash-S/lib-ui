@@ -2,7 +2,7 @@ import { UserActionTypes } from './user.types';
 import { SUCCESS, REQUEST, FAILURE } from '../action-type.util';
 
 const INITIAL_STATE = {
-  user: undefined,
+  user: JSON.parse(sessionStorage.getItem('User')),
   loading: false,
   loginError: false,
   accessToken: undefined,
@@ -31,6 +31,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         loginError: true,
       };
     case SUCCESS(UserActionTypes.GET_USER):
+      sessionStorage.setItem('User', JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
