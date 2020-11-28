@@ -2,7 +2,6 @@ import React from 'react';
 import '../view-styles/bookDetails.scss';
 
 function BookDetails(props) {
-  console.log('book : ', props.book);
   return (
     <div className='modal'>
       <div className='modal-content'>

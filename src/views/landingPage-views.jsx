@@ -75,7 +75,6 @@ class landingPageViews extends Component {
     this.setState({ openAddBook: false });
   };
   openBookDetails = (book) => {
-    console.log('open : ', book);
     this.setState({
       openBookdetails: true,
       book: book,
