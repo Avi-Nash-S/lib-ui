@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBooks, addBook } from '../redux/books/books.action';
+import { getBooks, addBook, getBookRequests, requestBook } from '../redux/books/books.action';
 import '../view-styles/landingPage-styles.scss';
 import CardListComponent from '../components/cardList-component';
 import LandingPageLayout from '../components/landingPage-layout-component';
@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import BookDetails from '../components/bookDetails';
+
 class landingPageViews extends Component {
   constructor(props) {
     super(props);
@@ -20,10 +21,12 @@ class landingPageViews extends Component {
       accessToken: undefined,
       openBookdetails: false,
       book: undefined,
+      requestDetails: undefined,
+      requestedBook: false,
     };
   }
   componentDidMount() {
-    const { data, getBooks, userData } = this.props;
+    const { data, getBooks, userData, getBookRequests } = this.props;
     if (Array.isArray(data.books) && data.books.length) {
       this.setState({
         books: data.books,
@@ -31,13 +34,10 @@ class landingPageViews extends Component {
     } else {
       getBooks();
     }
-    if (userData.user) {
-      localStorage.setItem('accessToken', userData.accessToken);
-    }
-    const accessToken = localStorage.getItem('accessToken');
     this.setState({
-      accessToken: accessToken,
+      accessToken: JSON.parse(localStorage.getItem('accessToken')),
     });
+    getBookRequests();
   }
 
   componentDidUpdate(prevProps) {
@@ -46,6 +46,24 @@ class landingPageViews extends Component {
       this.setState({
         showSuccessNotification: true,
         message: 'Book Added Successfully',
+      });
+      setTimeout(() => {
+        this.handleSnackbarClose();
+      }, 6000);
+    }
+    if (prevProps.data.requested !== data.requested && data.requested) {
+      this.setState({
+        showSuccessNotification: true,
+        message: 'Book Requested Successfully',
+      });
+      setTimeout(() => {
+        this.handleSnackbarClose();
+      }, 6000);
+    }
+    if (prevProps.data.requestFailed !== data.requestFailed && data.requestFailed) {
+      this.setState({
+        showSuccessNotification: true,
+        message: data.failMessage,
       });
       setTimeout(() => {
         this.handleSnackbarClose();
@@ -74,10 +92,11 @@ class landingPageViews extends Component {
     this.props.addBook(param);
     this.setState({ openAddBook: false });
   };
-  openBookDetails = (book) => {
+  openBookDetails = (book, RequestedBook) => {
     this.setState({
       openBookdetails: true,
       book: book,
+      RequestedBook,
     });
   };
   onBookdetailsModalClose = () => {
@@ -86,9 +105,12 @@ class landingPageViews extends Component {
       book: undefined,
     });
   };
+  onBookRequest = (book) => {
+    this.props.requestBook({ bookId: book._id });
+  };
   render() {
     const { history, data } = this.props;
-    const { openAddBook, showSuccessNotification, message, openBookdetails, book } = this.state;
+    const { openAddBook, showSuccessNotification, message, openBookdetails, book, RequestedBook } = this.state;
     return (
       <LandingPageLayout history={history}>
         {this.props.data.currentTab === 'Your Books' && this.props.userData.user && (
@@ -100,6 +122,7 @@ class landingPageViews extends Component {
         )}
         <CardListComponent
           books={data.books}
+          requestedBooks={data.requestedBook}
           isLoading={false}
           history={history}
           currentTab={this.props.data.currentTab}
@@ -113,7 +136,15 @@ class landingPageViews extends Component {
           loading={data.pending}
         />
         {openBookdetails && (
-          <BookDetails openBookDetail={openBookdetails} book={book} onclose={this.onBookdetailsModalClose} />
+          <BookDetails
+            currentTab={this.props.data.currentTab}
+            userData={this.props.userData.user}
+            book={book}
+            RequestedBook={RequestedBook}
+            requestedBooks={data.requestedBook}
+            onclose={this.onBookdetailsModalClose}
+            onBookRequest={this.onBookRequest}
+          />
         )}
         <div>
           <Snackbar
@@ -148,6 +179,8 @@ const mapStateToProps = (storeState) => ({
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
   addBook: (param) => dispatch(addBook(param)),
+  getBookRequests: () => dispatch(getBookRequests()),
+  requestBook: (param) => dispatch(requestBook(param)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(landingPageViews);

@@ -8,7 +8,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardComponent = ({ book, isLoading, history, currentTab, onBookImageClick }) => {
+const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, onBookImageClick }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -63,7 +62,7 @@ const CardComponent = ({ book, isLoading, history, currentTab, onBookImageClick 
               src={`http://covers.openlibrary.org/b/isbn/${book.isbn || 9780385533225}-L.jpg`}
               alt=''
               onError={(e) => (e.target.src = `http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`)}
-              onClick={() => onBookImageClick(book)}
+              onClick={() => onBookImageClick(book, RequestedBook)}
             />
           </div>
         )}
@@ -107,26 +106,6 @@ const CardComponent = ({ book, isLoading, history, currentTab, onBookImageClick 
                   </span>
                 </DescriptionContainer>
               </Typography>
-              {currentTab === 'All Books' && (
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingTop: '15px',
-                    lineHeight: ' 0.67',
-                  }}
-                >
-                  {book.available ? (
-                    <label style={{ color: 'green' }}>Available</label>
-                  ) : (
-                    <label style={{ color: 'red' }}>Unavailable</label>
-                  )}
-                  <Button color='primary' disabled={!book.available}>
-                    Request
-                  </Button>
-                </div>
-              )}
             </div>
           )}
         </CardContent>

@@ -1,21 +1,24 @@
 import React from 'react';
 import '../view-styles/bookDetails.scss';
+import Button from '@material-ui/core/Button';
 
 function BookDetails(props) {
+  const { book, currentTab, onclose, userData, onBookRequest, RequestedBook, requestedBooks } = props;
+  console.log('Current tab :', currentTab);
   return (
     <div className='modal'>
       <div className='modal-content'>
         <div className='modal-header'>
-          <span className='close' onClick={() => props.onclose()}>
+          <span className='close' onClick={() => onclose()}>
             &times;
           </span>
-          <h2>{props.book.title + ' '}</h2>
-          {props.book.subject}
+          <h2>{book.title + ' '}</h2>
+          {book.subject}
         </div>
         <div className='modal-body'>
           <div
             style={{
-              width: '100%',
+              width: '50%',
               height: '160px',
               boxSizing: 'initial',
               display: 'flex',
@@ -24,23 +27,80 @@ function BookDetails(props) {
           >
             <img
               style={{ height: '160px', width: '160px' }}
-              src={`http://covers.openlibrary.org/b/isbn/${props.book.isbn || 9780385533225}-L.jpg`}
+              src={`http://covers.openlibrary.org/b/isbn/${book.isbn || 9780385533225}-L.jpg`}
               alt=''
               onError={(e) => (e.target.src = `http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`)}
             />
           </div>
           <div>
             <p>
-              <b>By {props.book.author}</b>
+              <b>By {book.author}</b>
             </p>
             <p>
               <b>Publisher </b>
-              {props.book.publisher}
+              {book.publisher}
             </p>
           </div>
         </div>
         <div className='modal-footer'>
-          <h3>{props.book.available ? 'Available' : 'Unavailable'}</h3>
+          {/* <h3>{book.available ? 'Available' : 'Unavailable'}</h3>
+        </div> */}
+          {currentTab === 'All Books' && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '15px',
+                lineHeight: ' 0.67',
+              }}
+            >
+              {book.available ? (
+                <label style={{ color: 'green' }}>Available</label>
+              ) : (
+                <label style={{ color: 'red' }}>Unavailable</label>
+              )}
+              <Button
+                color='primary'
+                onClick={() => onBookRequest(book)}
+                disabled={!userData || !book.available || book.ownerId === userData._id}
+              >
+                Request
+              </Button>
+            </div>
+          )}
+          {currentTab === 'Book Request' && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '15px',
+                lineHeight: ' 0.67',
+              }}
+            >
+              {RequestedBook ? (
+                <span>{requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}</span>
+              ) : (
+                <div>
+                  <Button
+                    color='primary'
+                    // onClick={() => onBookApprove(book)}
+                    disabled={!userData || !book.available}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    color='secondary'
+                    // onClick={() => onBookApprove(book)}
+                    disabled={!userData || !book.available}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

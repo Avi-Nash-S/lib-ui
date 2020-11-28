@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   user: JSON.parse(sessionStorage.getItem('User')),
   loading: false,
   loginError: false,
-  accessToken: undefined,
+  accessToken: JSON.parse(localStorage.getItem('accessToken')),
   userId: undefined,
   currentTab: 'All Books',
 };
@@ -19,6 +19,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         loginError: false,
       };
     case SUCCESS(UserActionTypes.ON_LOGIN):
+      localStorage.setItem('accessToken', JSON.stringify(action.payload.accessToken));
       return {
         ...state,
         accessToken: action.payload.accessToken,
