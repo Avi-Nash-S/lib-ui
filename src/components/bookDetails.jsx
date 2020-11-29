@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 
 function BookDetails(props) {
   const { book, currentTab, onclose, userData, onBookRequest, RequestedBook, requestedBooks } = props;
-  console.log('Current tab :', currentTab);
   return (
     <div className='modal'>
       <div className='modal-content'>
@@ -23,6 +22,7 @@ function BookDetails(props) {
               boxSizing: 'initial',
               display: 'flex',
               justifyContent: 'center',
+              paddingTop: '1rem',
             }}
           >
             <img
@@ -43,8 +43,6 @@ function BookDetails(props) {
           </div>
         </div>
         <div className='modal-footer'>
-          {/* <h3>{book.available ? 'Available' : 'Unavailable'}</h3>
-        </div> */}
           {currentTab === 'All Books' && (
             <div
               style={{
@@ -80,7 +78,16 @@ function BookDetails(props) {
               }}
             >
               {RequestedBook ? (
-                <span>{requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}</span>
+                <div>
+                  {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}
+                  <Button
+                    color='secondary'
+                    // onClick={() => onBookApprove(book)}
+                    disabled={!userData || !book.available}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               ) : (
                 <div>
                   <Button

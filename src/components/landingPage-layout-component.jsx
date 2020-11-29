@@ -193,7 +193,7 @@ class LandingPageLayout extends React.Component {
             </Typography>
 
             <List>
-              {['All Books', 'Your Books', 'Book Request'].map((text, index) => (
+              {['All Books', 'Your Books', 'Book Request', 'Loaned Books'].map((text, index) => (
                 <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === currentTab}>
                   <ListItemIcon>
                     <MenuBookIcon />

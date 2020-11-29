@@ -51,7 +51,8 @@ export default function CardListComponent({
                 userData &&
                 requestedBooks.map(
                   (book, index) =>
-                    book.requestedBy._id === userData._id && (
+                    book.requestedBy._id === userData._id &&
+                    book.requestStatus === 'requested' && (
                       <CardComponent
                         book={book.book}
                         isLoading={isLoading}
@@ -84,6 +85,29 @@ export default function CardListComponent({
                     )
                 )}
             </div>
+          </div>
+        </div>
+        {currentTab === 'Loaned Books' && !userData && <h3>Please Login to see loaned books!</h3>}
+        <div>
+          {/* {currentTab === 'Loaned Books' && userData && <h3>Requested books</h3>} */}
+          <div style={{ display: 'flex' }}>
+            {currentTab === 'Book Request' &&
+              userData &&
+              requestedBooks.map(
+                (book, index) =>
+                  book.requestedBy._id === userData._id &&
+                  book.requestStatus === 'approved' && (
+                    <CardComponent
+                      book={book.book}
+                      isLoading={isLoading}
+                      key={index}
+                      history={history}
+                      currentTab={'Book Request'}
+                      onBookImageClick={onBookImageClick}
+                      RequestedBook={true}
+                    />
+                  )
+              )}
           </div>
         </div>
       </div>
