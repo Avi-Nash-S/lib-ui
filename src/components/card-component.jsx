@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   root: {
     width: 300,
     margin: 10,
-    height: 450,
+    height: 400,
   },
   media: {
     height: 160,
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardComponent = ({ book, isLoading, history }) => {
+const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, onBookImageClick }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -62,6 +62,7 @@ const CardComponent = ({ book, isLoading, history }) => {
               src={`http://covers.openlibrary.org/b/isbn/${book.isbn || 9780385533225}-L.jpg`}
               alt=''
               onError={(e) => (e.target.src = `http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`)}
+              onClick={() => onBookImageClick(book, RequestedBook)}
             />
           </div>
         )}
@@ -72,22 +73,40 @@ const CardComponent = ({ book, isLoading, history }) => {
               <Skeleton animation='wave' height={10} width={210} />
             </React.Fragment>
           ) : (
-            <Typography variant='body2' color='textSecondary'>
-              <DescriptionContainer>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Subject</h3>&nbsp; {book.subject} */}
-                  <b>Subject</b>&nbsp; {book.subject}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Author</h3>&nbsp; {book.author} */}
-                  <b>Author</b>&nbsp; {book.author}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <h3 style={{ margin: '0.3rem' }}>Published By</h3>&nbsp; {book.publisher} */}
-                  <b>Published By</b>&nbsp; {book.publisher}
-                </span>
-              </DescriptionContainer>
-            </Typography>
+            <div>
+              <Typography variant='body2' color='textSecondary' align='center'>
+                <DescriptionContainer>
+                  <span
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 'large',
+                      fontWeight: '500',
+                    }}
+                  >
+                    By&nbsp; {book.author}
+                  </span>
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      lineHeight: '1.5em',
+                      height: '3em',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {book.subject}
+                  </span>
+
+                  <span
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: ' 0.67' }}
+                  >
+                    {book.publisher}
+                  </span>
+                </DescriptionContainer>
+              </Typography>
+            </div>
           )}
         </CardContent>
       </CardActionArea>

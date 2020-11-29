@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../static/library.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const classes = useStyles();
-
+  const { loading } = props;
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -53,6 +54,7 @@ export default function SignUp(props) {
         <Grid container spacing={2} style={{ margin: '10px' }}>
           <Grid item xs={12} sm={6}>
             <TextField
+              value={props.firstName}
               autoComplete='fname'
               name='firstName'
               variant='outlined'
@@ -61,10 +63,12 @@ export default function SignUp(props) {
               id='firstName'
               label='First Name'
               autoFocus
+              onChange={props.onInputChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              value={props.lastName}
               variant='outlined'
               required
               fullWidth
@@ -72,10 +76,12 @@ export default function SignUp(props) {
               label='Last Name'
               name='lastName'
               autoComplete='lname'
+              onChange={props.onInputChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
+              value={props.email}
               variant='outlined'
               required
               fullWidth
@@ -83,11 +89,30 @@ export default function SignUp(props) {
               label='Email Address'
               name='email'
               autoComplete='email'
+              onChange={props.onInputChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
+              value={props.userName}
               variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='userName'
+              label='Username or Email'
+              name='userName'
+              autoComplete='username'
+              autoFocus
+              onChange={props.onInputChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              value={props.password}
+              onChange={props.onInputChange}
+              variant='outlined'
+              margin='normal'
               required
               fullWidth
               name='password'
@@ -104,8 +129,15 @@ export default function SignUp(props) {
               />
             </Grid> */}
         </Grid>
-        <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
-          Sign Up
+        <Button
+          type='submit'
+          fullWidth
+          variant='contained'
+          color='primary'
+          className={classes.submit}
+          onClick={props.onSignup}
+        >
+          {loading ? <CircularProgress style={{ color: '#fff' }} /> : 'Sign Up'}
         </Button>
         <Grid container justify='flex-end'>
           <Grid item>

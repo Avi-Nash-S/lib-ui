@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BookstActionTypes } from './books.types';
 import { REQUEST, SUCCESS, FAILURE } from '../action-type.util';
 
-const endPoint = 'https://lib-mate.herokuapp.com/books/'; //to be changed for library API
+const endPoint = 'https://lib-mate.herokuapp.com/books/';
 
 export const getBooksSuccess = (response) => ({
   type: SUCCESS(BookstActionTypes.GET_BOOKS),
@@ -57,6 +57,7 @@ export const addBook = (param) => {
     axios.post(requestUrl, param).then(
       (response) => {
         dispatch(addBookSuccess(response));
+        dispatch(getBooks());
       },
       (err) => {
         dispatch(addBookFailure(err));
@@ -64,3 +65,107 @@ export const addBook = (param) => {
     );
   };
 };
+
+export const getBookRequests = () => {
+  return (dispatch) => {
+    const requestUrl = `https://lib-mate.herokuapp.com/requests`;
+    dispatch(getBookRequest());
+    axios.get(requestUrl).then(
+      (response) => {
+        dispatch(getBookRequestSuccess(response));
+      },
+      (err) => {
+        dispatch(getBookRequestFailure(err));
+      }
+    );
+  };
+};
+
+const getBookRequest = () => ({
+  type: REQUEST(BookstActionTypes.GET_REQUEST),
+  payload: {},
+});
+
+const getBookRequestSuccess = (response) => ({
+  type: SUCCESS(BookstActionTypes.GET_REQUEST),
+  payload: response.data,
+});
+
+const getBookRequestFailure = (response) => ({
+  type: FAILURE(BookstActionTypes.GET_REQUEST),
+  payload: response.data,
+});
+
+export const requestBook = (param) => {
+  return (dispatch) => {
+    const requestUrl = `https://lib-mate.herokuapp.com/requests/create`;
+    dispatch(createBookRequest());
+    axios
+      .post(requestUrl, param, {
+        headers: {
+          Authorization: JSON.parse(localStorage.getItem('accessToken')),
+        },
+      })
+      .then(
+        (response) => {
+          dispatch(requestBookSuccess(response));
+          dispatch(getBookRequests());
+        },
+        (err) => {
+          dispatch(requestBookFailure(err));
+        }
+      );
+  };
+};
+
+const createBookRequest = () => ({
+  type: REQUEST(BookstActionTypes.CREATE_BOOK_REQUEST),
+  payload: {},
+});
+
+const requestBookSuccess = (response) => ({
+  type: SUCCESS(BookstActionTypes.CREATE_BOOK_REQUEST),
+  payload: response.data,
+});
+
+const requestBookFailure = (response) => ({
+  type: FAILURE(BookstActionTypes.CREATE_BOOK_REQUEST),
+  payload: response.data,
+});
+
+export const updateBookRequest = (id, action) => {
+  return (dispatch) => {
+    const requestUrl = `https://lib-mate.herokuapp.com/requests/${action}/${id}`;
+    dispatch(updateRequest());
+    axios
+      .patch(requestUrl, id, {
+        headers: {
+          Authorization: JSON.parse(localStorage.getItem('accessToken')),
+        },
+      })
+      .then(
+        (response) => {
+          dispatch(updateRequestSuccess(response));
+          dispatch(getBookRequests());
+        },
+        (err) => {
+          dispatch(updateRequestFailure(err));
+        }
+      );
+  };
+};
+
+const updateRequest = () => ({
+  type: REQUEST(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: {},
+});
+
+const updateRequestSuccess = (response) => ({
+  type: SUCCESS(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: response.data,
+});
+
+const updateRequestFailure = (response) => ({
+  type: FAILURE(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: response.data,
+});

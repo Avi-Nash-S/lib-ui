@@ -143,23 +143,28 @@ class LandingPageLayout extends React.Component {
     });
     this.props.setCurrentTab(param);
   };
+  onLogOut = () => {
+    this.props.setCurrentTab('All Books');
+    this.props.history.push('/login');
+  };
   render() {
     const { open, searchIconDisplay, searchQuery, currentTab } = this.state;
-    const { classes, getBooks, history } = this.props;
+    const { classes, getBooks } = this.props;
     return (
       <>
         <div className={classes.root}>
           <HeaderComponent
             searchIconDisplay={searchIconDisplay}
+            userDetails={this.props.data.user ? this.props.data.user : null}
             searchQuery={searchQuery}
             getBooks={getBooks}
-            history={history}
             open={open}
             classes={classes}
             onSearch={this.onSearch}
             onSearchClear={this.onSearchClear}
             handleDrawer={this.handleDrawer}
             onSearchUpdate={this.onSearchUpdate}
+            onLogOut={this.onLogOut}
           />
           <Drawer
             className={classes.drawer}
@@ -188,7 +193,7 @@ class LandingPageLayout extends React.Component {
             </Typography>
 
             <List>
-              {['All Books', 'Your Books', 'Book Request'].map((text, index) => (
+              {['All Books', 'Your Books', 'Book Request', 'Loaned Books'].map((text, index) => (
                 <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === currentTab}>
                   <ListItemIcon>
                     <MenuBookIcon />
@@ -216,9 +221,13 @@ class LandingPageLayout extends React.Component {
   }
 }
 
+const mapStateToProps = (storeState) => ({
+  data: storeState.user,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
   setCurrentTab: (currentTab) => dispatch(setCurrentTab(currentTab)),
 });
 
-export default compose(withStyles(styles), connect(null, mapDispatchToProps))(LandingPageLayout);
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(LandingPageLayout);
