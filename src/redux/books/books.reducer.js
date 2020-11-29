@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   addedBook: false,
   requested: false,
   requestFailed: false,
+  updatedRequest: false,
   currentTab: 'All Books',
   failMessage: '',
 };
@@ -103,6 +104,25 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         pending: false,
         requestFailed: true,
         failMessage: 'Request is already present',
+      };
+
+    case REQUEST(BookstActionTypes.UPDATE_BOOK_REQUEST):
+      return {
+        ...state,
+        pending: true,
+        updatedRequest: false,
+      };
+    case SUCCESS(BookstActionTypes.UPDATE_BOOK_REQUEST):
+      return {
+        ...state,
+        updatedRequest: true,
+        pending: false,
+      };
+    case FAILURE(BookstActionTypes.UPDATE_BOOK_REQUEST):
+      return {
+        ...state,
+        updatedRequest: false,
+        pending: false,
       };
     default:
       return state;

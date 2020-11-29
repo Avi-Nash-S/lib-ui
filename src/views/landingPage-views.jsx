@@ -60,6 +60,16 @@ class landingPageViews extends Component {
         this.handleSnackbarClose();
       }, 6000);
     }
+    if (prevProps.data.updatedRequest !== data.updatedRequest && data.updatedRequest) {
+      this.setState({
+        showSuccessNotification: true,
+        openBookdetails: false,
+        message: 'Book Requested Updated Successfully',
+      });
+      setTimeout(() => {
+        this.handleSnackbarClose();
+      }, 6000);
+    }
     if (prevProps.data.requestFailed !== data.requestFailed && data.requestFailed) {
       this.setState({
         showSuccessNotification: true,

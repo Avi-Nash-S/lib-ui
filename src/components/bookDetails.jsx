@@ -49,10 +49,12 @@ function BookDetails(props) {
               <b>Publisher </b>
               {book.publisher}
             </p>
-            <p>
-              <b>Publisher </b>
-              {book.publisher}
-            </p>
+            {currentTab === 'Book Request' && !RequestedBook && (
+              <p>
+                <b>Requested By </b>
+                {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestedBy.userName}
+              </p>
+            )}
           </div>
         </div>
         <div className='modal-footer'>
