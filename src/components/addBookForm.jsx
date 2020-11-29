@@ -5,7 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import '../view-styles/addBookForm.scss';
@@ -19,7 +18,6 @@ class AddBook extends React.Component {
       author: '',
       publisher: '',
       subject: '',
-      available: false,
     };
   }
   handleSbnChange = (event) => {
@@ -27,20 +25,20 @@ class AddBook extends React.Component {
       [event.target.name]: event.target.value,
     });
   };
-  handleAvailabilityChange = (event) => {
-    let temp = event.target.value === 'Yes' ? true : false;
-    this.setState({
-      available: temp,
-    });
-  };
+  // handleAvailabilityChange = (event) => {
+  //   let temp = event.target.value === 'Yes' ? true : false;
+  //   this.setState({
+  //     available: temp,
+  //   });
+  // };
   handleAddBook = () => {
-    const { isbn, title, author, publisher, subject, available } = this.state;
+    const { isbn, title, author, publisher, subject } = this.state;
     if (!isbn || !title || !author || !publisher || !subject) {
       alert('Please provide all the input');
     } else {
       this.props.handleAddBook({
         isbn: isbn,
-        available: available,
+        available: true,
         title: title,
         author: author,
         publisher: publisher,
@@ -110,7 +108,7 @@ class AddBook extends React.Component {
                 required
                 onChange={this.handleSbnChange}
               />
-              <br />
+              {/* <br />
               <TextField
                 id='outlined-select-currency'
                 select
@@ -125,7 +123,7 @@ class AddBook extends React.Component {
                     {value}
                   </MenuItem>
                 ))}
-              </TextField>
+              </TextField> */}
             </FormControl>
             <br />
           </DialogContent>
