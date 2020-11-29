@@ -147,6 +147,7 @@ export const updateBookRequest = (id, action) => {
         (response) => {
           dispatch(updateRequestSuccess(response));
           dispatch(getBookRequests());
+          dispatch(getBooks());
         },
         (err) => {
           dispatch(updateRequestFailure(err));
