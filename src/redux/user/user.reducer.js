@@ -2,10 +2,10 @@ import { UserActionTypes } from './user.types';
 import { SUCCESS, REQUEST, FAILURE } from '../action-type.util';
 
 const INITIAL_STATE = {
-  user: JSON.parse(sessionStorage.getItem('User')),
+  user: JSON.parse(sessionStorage.getItem('User')) || '',
   loading: false,
   loginError: false,
-  accessToken: JSON.parse(localStorage.getItem('accessToken')),
+  accessToken: JSON.parse(localStorage.getItem('accessToken')) || '',
   userId: undefined,
   currentTab: 'All Books',
 };
