@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBooks, addBook, getBookRequests, requestBook } from '../redux/books/books.action';
+import { getBooks, addBook, getBookRequests, requestBook, updateBookRequest } from '../redux/books/books.action';
 import '../view-styles/landingPage-styles.scss';
 import CardListComponent from '../components/cardList-component';
 import LandingPageLayout from '../components/landingPage-layout-component';
@@ -108,6 +108,10 @@ class landingPageViews extends Component {
   onBookRequest = (book) => {
     this.props.requestBook({ bookId: book._id });
   };
+  onBookRequestUpdate = (id, action) => {
+    // console.log(id);
+    this.props.updateBookRequest(id, action);
+  };
   render() {
     const { history, data } = this.props;
     const { openAddBook, showSuccessNotification, message, openBookdetails, book, RequestedBook } = this.state;
@@ -144,6 +148,7 @@ class landingPageViews extends Component {
             requestedBooks={data.requestedBook}
             onclose={this.onBookdetailsModalClose}
             onBookRequest={this.onBookRequest}
+            onBookRequestUpdate={this.onBookRequestUpdate}
           />
         )}
         <div>
@@ -181,6 +186,7 @@ const mapDispatchToProps = (dispatch) => ({
   addBook: (param) => dispatch(addBook(param)),
   getBookRequests: () => dispatch(getBookRequests()),
   requestBook: (param) => dispatch(requestBook(param)),
+  updateBookRequest: (id, action) => dispatch(updateBookRequest(id, action)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(landingPageViews);

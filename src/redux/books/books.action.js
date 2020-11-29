@@ -132,3 +132,40 @@ const requestBookFailure = (response) => ({
   type: FAILURE(BookstActionTypes.CREATE_BOOK_REQUEST),
   payload: response.data,
 });
+
+export const updateBookRequest = (id, action) => {
+  return (dispatch) => {
+    const requestUrl = `https://lib-mate.herokuapp.com/requests/${action}/${id}`;
+    dispatch(updateRequest());
+    axios
+      .patch(requestUrl, id, {
+        headers: {
+          Authorization: JSON.parse(localStorage.getItem('accessToken')),
+        },
+      })
+      .then(
+        (response) => {
+          dispatch(updateRequestSuccess(response));
+          dispatch(getBookRequests());
+        },
+        (err) => {
+          dispatch(updateRequestFailure(err));
+        }
+      );
+  };
+};
+
+const updateRequest = () => ({
+  type: REQUEST(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: {},
+});
+
+const updateRequestSuccess = (response) => ({
+  type: SUCCESS(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: response.data,
+});
+
+const updateRequestFailure = (response) => ({
+  type: FAILURE(BookstActionTypes.UPDATE_BOOK_REQUEST),
+  payload: response.data,
+});

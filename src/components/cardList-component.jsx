@@ -73,7 +73,8 @@ export default function CardListComponent({
                 userData &&
                 requestedBooks.map(
                   (book, index) =>
-                    book.book.ownerId === userData._id && (
+                    book.book.ownerId === userData._id &&
+                    book.requestStatus === 'requested' && (
                       <CardComponent
                         book={book.book}
                         isLoading={isLoading}

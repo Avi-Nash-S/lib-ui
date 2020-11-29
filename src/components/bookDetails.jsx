@@ -3,7 +3,16 @@ import '../view-styles/bookDetails.scss';
 import Button from '@material-ui/core/Button';
 
 function BookDetails(props) {
-  const { book, currentTab, onclose, userData, onBookRequest, RequestedBook, requestedBooks } = props;
+  const {
+    book,
+    currentTab,
+    onclose,
+    userData,
+    onBookRequest,
+    RequestedBook,
+    requestedBooks,
+    onBookRequestUpdate,
+  } = props;
   return (
     <div className='modal'>
       <div className='modal-content'>
@@ -35,6 +44,10 @@ function BookDetails(props) {
           <div>
             <p>
               <b>By {book.author}</b>
+            </p>
+            <p>
+              <b>Publisher </b>
+              {book.publisher}
             </p>
             <p>
               <b>Publisher </b>
@@ -82,7 +95,12 @@ function BookDetails(props) {
                   {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}
                   <Button
                     color='secondary'
-                    // onClick={() => onBookApprove(book)}
+                    onClick={() =>
+                      onBookRequestUpdate(
+                        requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
+                        'cancel'
+                      )
+                    }
                     disabled={!userData || !book.available}
                   >
                     Cancel
@@ -92,14 +110,24 @@ function BookDetails(props) {
                 <div>
                   <Button
                     color='primary'
-                    // onClick={() => onBookApprove(book)}
+                    onClick={() =>
+                      onBookRequestUpdate(
+                        requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
+                        'approve'
+                      )
+                    }
                     disabled={!userData || !book.available}
                   >
                     Approve
                   </Button>
                   <Button
                     color='secondary'
-                    // onClick={() => onBookApprove(book)}
+                    onClick={() =>
+                      onBookRequestUpdate(
+                        requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
+                        'reject'
+                      )
+                    }
                     disabled={!userData || !book.available}
                   >
                     Reject
