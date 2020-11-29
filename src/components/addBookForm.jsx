@@ -23,8 +23,6 @@ class AddBook extends React.Component {
     };
   }
   handleSbnChange = (event) => {
-    console.log(event.target.name);
-    console.log('sbn : ', event.target.value);
     this.setState({
       [event.target.name]: event.target.value,
     });

@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, onBookImageClick }) => {
+const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, onBookImageClick, RequestId }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -62,7 +62,7 @@ const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, on
               src={`http://covers.openlibrary.org/b/isbn/${book.isbn || 9780385533225}-L.jpg`}
               alt=''
               onError={(e) => (e.target.src = `http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg`)}
-              onClick={() => onBookImageClick(book, RequestedBook)}
+              onClick={() => onBookImageClick(book, RequestedBook, RequestId)}
             />
           </div>
         )}

@@ -23,6 +23,7 @@ class landingPageViews extends Component {
       book: undefined,
       requestDetails: undefined,
       requestedBook: false,
+      requestId: undefined,
     };
   }
   componentDidMount() {
@@ -54,6 +55,7 @@ class landingPageViews extends Component {
     if (prevProps.data.requested !== data.requested && data.requested) {
       this.setState({
         showSuccessNotification: true,
+        openBookdetails: false,
         message: 'Book Requested Successfully',
       });
       setTimeout(() => {
@@ -102,10 +104,11 @@ class landingPageViews extends Component {
     this.props.addBook(param);
     this.setState({ openAddBook: false });
   };
-  openBookDetails = (book, RequestedBook) => {
+  openBookDetails = (book, RequestedBook, requestId) => {
     this.setState({
       openBookdetails: true,
       book: book,
+      RequestId: requestId,
       RequestedBook,
     });
   };
@@ -119,12 +122,19 @@ class landingPageViews extends Component {
     this.props.requestBook({ bookId: book._id });
   };
   onBookRequestUpdate = (id, action) => {
-    // console.log(id);
     this.props.updateBookRequest(id, action);
   };
   render() {
     const { history, data } = this.props;
-    const { openAddBook, showSuccessNotification, message, openBookdetails, book, RequestedBook } = this.state;
+    const {
+      openAddBook,
+      showSuccessNotification,
+      message,
+      openBookdetails,
+      book,
+      RequestedBook,
+      RequestId,
+    } = this.state;
     return (
       <LandingPageLayout history={history}>
         {this.props.data.currentTab === 'Your Books' && this.props.userData.user && (
@@ -156,6 +166,7 @@ class landingPageViews extends Component {
             book={book}
             RequestedBook={RequestedBook}
             requestedBooks={data.requestedBook}
+            requestId={RequestId}
             onclose={this.onBookdetailsModalClose}
             onBookRequest={this.onBookRequest}
             onBookRequestUpdate={this.onBookRequestUpdate}

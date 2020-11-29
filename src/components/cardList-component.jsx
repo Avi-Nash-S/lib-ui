@@ -52,7 +52,7 @@ export default function CardListComponent({
                 requestedBooks.map(
                   (book, index) =>
                     book.requestedBy._id === userData._id &&
-                    book.requestStatus === 'requested' && (
+                    (book.requestStatus === 'requested' || book.requestStatus === 'rejected') && (
                       <CardComponent
                         book={book.book}
                         isLoading={isLoading}
@@ -61,6 +61,7 @@ export default function CardListComponent({
                         currentTab={'Book Request'}
                         onBookImageClick={onBookImageClick}
                         RequestedBook={true}
+                        RequestId={book._id}
                       />
                     )
                 )}

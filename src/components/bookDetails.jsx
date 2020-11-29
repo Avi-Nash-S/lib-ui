@@ -12,6 +12,7 @@ function BookDetails(props) {
     RequestedBook,
     requestedBooks,
     onBookRequestUpdate,
+    requestId,
   } = props;
   return (
     <div className='modal'>
@@ -76,7 +77,15 @@ function BookDetails(props) {
               <Button
                 color='primary'
                 onClick={() => onBookRequest(book)}
-                disabled={!userData || !book.available || book.ownerId === userData._id}
+                disabled={
+                  !userData ||
+                  !book.available ||
+                  book.ownerId === userData._id ||
+                  (requestedBooks.length &&
+                    requestedBooks.find((requestBook) => requestBook.book._id === book._id) &&
+                    requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus ===
+                      'requested')
+                }
               >
                 Request
               </Button>
@@ -97,7 +106,7 @@ function BookDetails(props) {
                 onClick={() =>
                   onBookRequestUpdate(
                     requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
-                    'return'
+                    'close'
                   )
                 }
                 disabled={!userData || book.ownerId === userData._id}
@@ -117,11 +126,22 @@ function BookDetails(props) {
               }}
             >
               {RequestedBook ? (
-                <div>
-                  {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}
+                <div
+                  style={
+                    requestedBooks.find((requestBook) => requestId === requestBook._id).requestStatus === 'rejected'
+                      ? { color: 'red' }
+                      : { color: 'green' }
+                  }
+                >
+                  {requestedBooks.find((requestBook) => requestId === requestBook._id).requestStatus}
                   <Button
                     color='secondary'
-                    onClick={() => onBookRequestUpdate(book._id, 'cancel')}
+                    onClick={() =>
+                      onBookRequestUpdate(
+                        requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
+                        'cancel'
+                      )
+                    }
                     disabled={!userData || !book.available}
                   >
                     Cancel
