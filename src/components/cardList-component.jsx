@@ -9,10 +9,45 @@ export default function CardListComponent({
   userData,
   onBookImageClick,
   requestedBooks,
+  showfilteredBooks,
+  filteredBookData,
 }) {
+  console.log('filtered books', filteredBookData);
+  console.log('show filtered data : ', showfilteredBooks);
+  console.log('current Tab : ', currentTab);
   return (
     <div>
       <div className='lp-container'>
+        {books &&
+          currentTab === 'All Books' &&
+          !showfilteredBooks &&
+          books.map((book, index) => (
+            <CardComponent
+              book={book}
+              isLoading={isLoading}
+              key={index}
+              history={history}
+              onBookImageClick={onBookImageClick}
+              currentTab={'All Books'}
+            />
+          ))}
+        {showfilteredBooks &&
+          currentTab === 'All Books' &&
+          filteredBookData.lenght &&
+          filteredBookData.map((book, index) => (
+            <CardComponent
+              book={book}
+              isLoading={isLoading}
+              key={index}
+              history={history}
+              onBookImageClick={onBookImageClick}
+              currentTab={'All Books'}
+            />
+          ))}{' '}
+        {currentTab === 'All Books' && showfilteredBooks && filteredBookData.lenght === 0 && (
+          <span>No results found!</span>
+        )}
+        {/* Your book section */}
         {books &&
           currentTab === 'Your Books' &&
           userData &&
@@ -30,18 +65,6 @@ export default function CardListComponent({
               )
           )}
         {currentTab === 'Your Books' && !userData && <h3>Please Login to see/add books!</h3>}
-        {books &&
-          currentTab === 'All Books' &&
-          books.map((book, index) => (
-            <CardComponent
-              book={book}
-              isLoading={isLoading}
-              key={index}
-              history={history}
-              currentTab={'All Books'}
-              onBookImageClick={onBookImageClick}
-            />
-          ))}
         <div style={{ display: 'block' }}>
           {currentTab === 'Book Request' && !userData && <h3>Please Login to see book requests!</h3>}
           <div>

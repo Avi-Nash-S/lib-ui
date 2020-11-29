@@ -10,6 +10,8 @@ const INITIAL_STATE = {
   requested: false,
   requestFailed: false,
   updatedRequest: false,
+  showfilteredBooks: false,
+  filteredBooks: [],
   currentTab: 'All Books',
   failMessage: '',
 };
@@ -123,6 +125,29 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         ...state,
         updatedRequest: false,
         pending: false,
+      };
+    case BookstActionTypes.FILTER_BOOK_REQUEST:
+      let tempBooks = state.books;
+      var matchingObj =
+        tempBooks &&
+        tempBooks.filter(
+          (obj) =>
+            obj.title.toLowerCase().includes(action.payload.toLowerCase()) ||
+            obj.author.toLowerCase().includes(action.payload.toLowerCase()) ||
+            obj.isbn.toLowerCase().includes(action.payload.toLowerCase()) ||
+            obj.publisher.toLowerCase().includes(action.payload.toLowerCase())
+        );
+      console.log('matching objects : ', matchingObj);
+      return {
+        ...state,
+        filteredBooks: matchingObj,
+        showfilteredBooks: true,
+      };
+    case BookstActionTypes.RESET_FILTERED_RESULT:
+      return {
+        ...state,
+        showfilteredBooks: false,
+        filteredBooks: [],
       };
     default:
       return state;

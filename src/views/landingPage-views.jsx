@@ -149,8 +149,10 @@ class landingPageViews extends Component {
           requestedBooks={data.requestedBook}
           isLoading={false}
           history={history}
-          currentTab={this.props.data.currentTab}
+          currentTab={data.currentTab}
           userData={this.props.userData.user}
+          showfilteredBooks={data.showfilteredBooks}
+          filteredBookData={data.filteredBooks}
           onBookImageClick={this.openBookDetails}
         />
         <AddBook
@@ -161,7 +163,7 @@ class landingPageViews extends Component {
         />
         {openBookdetails && (
           <BookDetails
-            currentTab={this.props.data.currentTab}
+            currentTab={data.currentTab}
             userData={this.props.userData.user}
             book={book}
             RequestedBook={RequestedBook}

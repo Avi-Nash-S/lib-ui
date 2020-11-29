@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
-import { getBooks, setCurrentTab } from '../redux/books/books.action';
+import { getBooks, setCurrentTab, filterBooks, resetBooksResults } from '../redux/books/books.action';
 import { logout } from '../redux/user/user.action';
 import { compose } from 'redux';
 import HeaderComponent from './header-component';
@@ -108,7 +108,7 @@ class LandingPageLayout extends React.Component {
     super(props);
     this.state = {
       open: true,
-      searchQuery: null,
+      searchQuery: '',
       filterQuery: null,
       searchIconDisplay: true,
       currentTab: 'All Books',
@@ -124,11 +124,13 @@ class LandingPageLayout extends React.Component {
       searchIconDisplay: !prevState.searchIconDisplay,
       filterQuery: null,
     }));
+    this.state.searchQuery.length > 3 && this.props.filterBooks(this.state.searchQuery);
   };
   onSearchClear = () => {
+    this.props.resetBooksResults();
     this.setState(
       {
-        searchQuery: null,
+        searchQuery: '',
       },
       () => this.onSearch()
     );
@@ -231,6 +233,8 @@ const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
   setCurrentTab: (currentTab) => dispatch(setCurrentTab(currentTab)),
   logout: () => dispatch(logout()),
+  filterBooks: (searchQuery) => dispatch(filterBooks(searchQuery)),
+  resetBooksResults: () => dispatch(resetBooksResults()),
 });
 
 export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(LandingPageLayout);

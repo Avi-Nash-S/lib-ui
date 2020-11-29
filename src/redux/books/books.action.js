@@ -170,3 +170,18 @@ const updateRequestFailure = (response) => ({
   type: FAILURE(BookstActionTypes.UPDATE_BOOK_REQUEST),
   payload: response.data,
 });
+
+export const filterBooks = (searchQuery) => {
+  return (dispatch) => {
+    dispatch(filterBooksResults(searchQuery));
+  };
+};
+
+const filterBooksResults = (searchQuery) => ({
+  type: BookstActionTypes.FILTER_BOOK_REQUEST,
+  payload: searchQuery,
+});
+export const resetBooksResults = () => ({
+  type: BookstActionTypes.RESET_FILTERED_RESULT,
+  payload: {},
+});

@@ -76,6 +76,7 @@ function HeaderComponent({
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                value={searchQuery}
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={(event) => onSearchUpdate(event)}
                 onKeyDown={(event) => event.key === 'Enter' && onSearch()}
