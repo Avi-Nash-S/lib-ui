@@ -80,6 +80,30 @@ function BookDetails(props) {
               </Button>
             </div>
           )}
+          {currentTab === 'Loaned Books' && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '15px',
+                lineHeight: ' 0.67',
+              }}
+            >
+              <Button
+                color='primary'
+                onClick={() =>
+                  onBookRequestUpdate(
+                    requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
+                    'return'
+                  )
+                }
+                disabled={!userData || book.ownerId === userData._id}
+              >
+                Return
+              </Button>
+            </div>
+          )}
           {currentTab === 'Book Request' && (
             <div
               style={{
@@ -95,12 +119,7 @@ function BookDetails(props) {
                   {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestStatus}
                   <Button
                     color='secondary'
-                    onClick={() =>
-                      onBookRequestUpdate(
-                        requestedBooks.find((requestBook) => requestBook.book._id === book._id)._id,
-                        'cancel'
-                      )
-                    }
+                    onClick={() => onBookRequestUpdate(book._id, 'cancel')}
                     disabled={!userData || !book.available}
                   >
                     Cancel

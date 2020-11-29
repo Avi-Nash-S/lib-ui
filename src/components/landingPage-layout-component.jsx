@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
 import { getBooks, setCurrentTab } from '../redux/books/books.action';
+import { logout } from '../redux/user/user.action';
 import { compose } from 'redux';
 import HeaderComponent from './header-component';
 import List from '@material-ui/core/List';
@@ -144,6 +145,7 @@ class LandingPageLayout extends React.Component {
     this.props.setCurrentTab(param);
   };
   onLogOut = () => {
+    this.props.logout();
     this.props.setCurrentTab('All Books');
     this.props.history.push('/login');
   };
@@ -228,6 +230,7 @@ const mapStateToProps = (storeState) => ({
 const mapDispatchToProps = (dispatch) => ({
   getBooks: (pageNo, pageSize, query) => dispatch(getBooks(pageNo, pageSize, query)),
   setCurrentTab: (currentTab) => dispatch(setCurrentTab(currentTab)),
+  logout: () => dispatch(logout()),
 });
 
 export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(LandingPageLayout);

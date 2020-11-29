@@ -37,17 +37,17 @@ export const onSignUpSuccess = (response) => ({
   payload: response.data,
 });
 
-export const onLogoutRequest = (err) => ({
+export const onLogoutRequest = () => ({
   type: REQUEST(UserActionTypes.ON_LOGOUT),
-  error: err,
+  payload: {},
 });
 export const onLogoutSuccess = (err) => ({
   type: SUCCESS(UserActionTypes.ON_LOGOUT),
-  error: err,
+  payload: {},
 });
 export const onLogoutFailuer = (err) => ({
   type: FAILURE(UserActionTypes.ON_LOGOUT),
-  error: err,
+  payload: err,
 });
 
 export const login = (username, password) => {
@@ -100,15 +100,14 @@ export const signup = (param) => {
 };
 export const logout = (param) => {
   return (dispatch) => {
-    const requestUrl = `${endPoint}`;
-    dispatch(onLogoutRequest());
-    axios.post(requestUrl, param).then(
-      (response) => {
-        dispatch(onLogoutSuccess(response));
-      },
-      (err) => {
-        dispatch(onLogoutFailuer(err));
-      }
-    );
+    dispatch(onLogoutSuccess());
+    // axios.post(requestUrl, param).then(
+    //   (response) => {
+    //     dispatch(onLogoutSuccess(response));
+    //   },
+    //   (err) => {
+    //     dispatch(onLogoutFailuer(err));
+    //   }
+    // );
   };
 };

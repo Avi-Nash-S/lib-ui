@@ -62,6 +62,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         loginError: true,
       };
+    case SUCCESS(UserActionTypes.ON_LOGOUT):
+      sessionStorage.clear();
+      return {
+        ...state,
+        user: undefined,
+      };
     default:
       return state;
   }

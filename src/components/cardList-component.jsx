@@ -92,7 +92,7 @@ export default function CardListComponent({
         <div>
           {/* {currentTab === 'Loaned Books' && userData && <h3>Requested books</h3>} */}
           <div style={{ display: 'flex' }}>
-            {currentTab === 'Book Request' &&
+            {currentTab === 'Loaned Books' &&
               userData &&
               requestedBooks.map(
                 (book, index) =>
