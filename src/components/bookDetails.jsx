@@ -53,7 +53,7 @@ function BookDetails(props) {
             {currentTab === 'Book Request' && !RequestedBook && (
               <p>
                 <b>Requested By </b>
-                {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestedBy.userName}
+                {requestedBooks.find((requestBook) => requestBook.book._id === book._id).requestedBy.userEmail}
               </p>
             )}
           </div>
