@@ -11,7 +11,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-// import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -117,11 +116,4 @@ function HeaderComponent({
   );
 }
 
-// const mapStateToProps = (storeState) => ({
-// });
-
-// const mapDispatchToProps = (dispatch) => ({
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
 export default HeaderComponent;

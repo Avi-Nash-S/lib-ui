@@ -74,7 +74,6 @@ const bookReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         requestedBook: action.payload,
-        // requested: true,
         pending: false,
       };
     case FAILURE(BookstActionTypes.GET_REQUEST):
@@ -83,7 +82,6 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         requested: false,
         pending: false,
         requestFailed: true,
-        // failMessage: action.payload.message,
       };
     case REQUEST(BookstActionTypes.CREATE_BOOK_REQUEST):
       return {
@@ -95,7 +93,6 @@ const bookReducer = (state = INITIAL_STATE, action) => {
     case SUCCESS(BookstActionTypes.CREATE_BOOK_REQUEST):
       return {
         ...state,
-        // requestedBook: action.payload,
         requested: true,
         pending: false,
       };
@@ -137,7 +134,6 @@ const bookReducer = (state = INITIAL_STATE, action) => {
             obj.isbn.toLowerCase().includes(action.payload.toLowerCase()) ||
             obj.publisher.toLowerCase().includes(action.payload.toLowerCase())
         );
-      console.log('matching objects : ', matchingObj);
       return {
         ...state,
         filteredBooks: matchingObj,

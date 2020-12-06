@@ -40,8 +40,8 @@ class LoginPage extends Component {
     if (prevProps.data.user !== user && user) {
       this.props.history.push('/');
     }
-    // if()
   }
+  // below method is called after clicking the login button
   onLoginClick = () => {
     this.setState({
       pageState: pageMode.LOGIN,
@@ -52,6 +52,7 @@ class LoginPage extends Component {
       lastName: '',
     });
   };
+  // below method is called after clicking sign up option
   onRegisterClick = () => {
     this.setState({
       pageState: pageMode.REGISTER,
@@ -62,10 +63,12 @@ class LoginPage extends Component {
       lastName: '',
     });
   };
+  // called after clicking on login button to login
   onSignIn = () => {
     const { userName, password } = this.state;
     this.props.onLogin(userName, password);
   };
+  // called after clicking signup button
   onSignUp = () => {
     const { firstName, lastName, email, userName, password } = this.state;
     let tempsignUpdetails = {
@@ -77,11 +80,13 @@ class LoginPage extends Component {
     };
     this.props.onSignUp(tempsignUpdetails);
   };
+  // while entering values in the input areas of login page or signup page
   onInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
+  // to close the snackbar
   handleSnackbarClose = () => {
     this.setState({
       messageOpen: false,
@@ -122,7 +127,6 @@ class LoginPage extends Component {
               horizontal: 'left',
             }}
             open={messageOpen}
-            // autoHideDuration={6000}
             onClose={this.handleSnackbarClose}
             onBlur={this.handleSnackbarClose}
             message={message}

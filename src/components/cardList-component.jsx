@@ -9,18 +9,12 @@ export default function CardListComponent({
   userData,
   onBookImageClick,
   requestedBooks,
-  showfilteredBooks,
-  filteredBookData,
 }) {
-  console.log('filtered books', filteredBookData);
-  console.log('show filtered data : ', showfilteredBooks);
-  console.log('current Tab : ', currentTab);
   return (
     <div>
       <div className='lp-container'>
         {books &&
           currentTab === 'All Books' &&
-          !showfilteredBooks &&
           books.map((book, index) => (
             <CardComponent
               book={book}
@@ -31,23 +25,6 @@ export default function CardListComponent({
               currentTab={'All Books'}
             />
           ))}
-        {showfilteredBooks &&
-          currentTab === 'All Books' &&
-          filteredBookData.lenght &&
-          filteredBookData.map((book, index) => (
-            <CardComponent
-              book={book}
-              isLoading={isLoading}
-              key={index}
-              history={history}
-              onBookImageClick={onBookImageClick}
-              currentTab={'All Books'}
-            />
-          ))}{' '}
-        {currentTab === 'All Books' && showfilteredBooks && filteredBookData.lenght === 0 && (
-          <span>No results found!</span>
-        )}
-        {/* Your book section */}
         {books &&
           currentTab === 'Your Books' &&
           userData &&
@@ -114,7 +91,6 @@ export default function CardListComponent({
         </div>
         {currentTab === 'Loaned Books' && !userData && <h3>Please Login to see loaned books!</h3>}
         <div>
-          {/* {currentTab === 'Loaned Books' && userData && <h3>Requested books</h3>} */}
           <div style={{ display: 'flex' }}>
             {currentTab === 'Loaned Books' &&
               userData &&

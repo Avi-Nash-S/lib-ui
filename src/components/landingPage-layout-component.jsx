@@ -16,6 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 const drawerWidth = 240;
 
+// css styling
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -114,11 +115,13 @@ class LandingPageLayout extends React.Component {
       currentTab: 'All Books',
     };
   }
+  // open close drawer to show tab options
   handleDrawer = () => {
     this.setState((prevState) => ({
       open: !prevState.open,
     }));
   };
+  // on searech of all books
   onSearch = () => {
     this.setState((prevState) => ({
       searchIconDisplay: !prevState.searchIconDisplay,
@@ -126,6 +129,7 @@ class LandingPageLayout extends React.Component {
     }));
     this.state.searchQuery.length > 3 && this.props.filterBooks(this.state.searchQuery);
   };
+  // when clearing input area of search box
   onSearchClear = () => {
     this.props.resetBooksResults();
     this.setState(
@@ -135,17 +139,20 @@ class LandingPageLayout extends React.Component {
       () => this.onSearch()
     );
   };
+  // when entering value into search box
   onSearchUpdate = (event) => {
     this.setState({
       searchQuery: event.target.value,
     });
   };
+  // on select of tab option
   onListItemSelect = (param) => {
     this.setState({
       currentTab: param,
     });
     this.props.setCurrentTab(param);
   };
+  // on logout clicked
   onLogOut = () => {
     this.props.logout();
     this.props.setCurrentTab('All Books');
@@ -201,9 +208,6 @@ class LandingPageLayout extends React.Component {
                 <ListItem button key={text} onClick={() => this.onListItemSelect(text)} selected={text === currentTab}>
                   <ListItemIcon>
                     <MenuBookIcon />
-                    {/* {(text = 'All Books' && <LocalLibraryIcon />)}
-                    {(text = 'Your Books' && <MenuBookIcon />)}
-                    {(text = 'Book Request' && <LocalLibraryIcon />)} */}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>

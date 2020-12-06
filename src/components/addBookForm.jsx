@@ -20,17 +20,13 @@ class AddBook extends React.Component {
       subject: '',
     };
   }
-  handleSbnChange = (event) => {
+  // when entering values in add new book form
+  handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
-  // handleAvailabilityChange = (event) => {
-  //   let temp = event.target.value === 'Yes' ? true : false;
-  //   this.setState({
-  //     available: temp,
-  //   });
-  // };
+  // when adding a new book
   handleAddBook = () => {
     const { isbn, title, author, publisher, subject } = this.state;
     if (!isbn || !title || !author || !publisher || !subject) {
@@ -66,7 +62,7 @@ class AddBook extends React.Component {
                 variant='outlined'
                 value={this.state.isbn}
                 required
-                onChange={this.handleSbnChange}
+                onChange={this.handleInputChange}
               />
               <br />
               <TextField
@@ -76,7 +72,7 @@ class AddBook extends React.Component {
                 variant='outlined'
                 value={this.state.title}
                 required
-                onChange={this.handleSbnChange}
+                onChange={this.handleInputChange}
               />
               <br />
               <TextField
@@ -86,7 +82,7 @@ class AddBook extends React.Component {
                 variant='outlined'
                 value={this.state.author}
                 required
-                onChange={this.handleSbnChange}
+                onChange={this.handleInputChange}
               />
               <br />
               <TextField
@@ -96,7 +92,7 @@ class AddBook extends React.Component {
                 variant='outlined'
                 value={this.state.publisher}
                 required
-                onChange={this.handleSbnChange}
+                onChange={this.handleInputChange}
               />
               <br />
               <TextField
@@ -106,7 +102,7 @@ class AddBook extends React.Component {
                 variant='outlined'
                 value={this.state.subject}
                 required
-                onChange={this.handleSbnChange}
+                onChange={this.handleInputChange}
               />
               {/* <br />
               <TextField

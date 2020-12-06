@@ -98,16 +98,8 @@ export const signup = (param) => {
     );
   };
 };
-export const logout = (param) => {
+export const logout = () => {
   return (dispatch) => {
     dispatch(onLogoutSuccess());
-    // axios.post(requestUrl, param).then(
-    //   (response) => {
-    //     dispatch(onLogoutSuccess(response));
-    //   },
-    //   (err) => {
-    //     dispatch(onLogoutFailuer(err));
-    //   }
-    // );
   };
 };

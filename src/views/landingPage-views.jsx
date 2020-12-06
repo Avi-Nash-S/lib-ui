@@ -15,19 +15,21 @@ class landingPageViews extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openAddBook: false,
-      showSuccessNotification: false,
-      message: '',
-      accessToken: undefined,
-      openBookdetails: false,
-      book: undefined,
-      requestDetails: undefined,
-      requestedBook: false,
-      requestId: undefined,
+      openAddBook: false, // Opens modal box to add a new book
+      showSuccessNotification: false, // shows notification
+      message: '', //message to show
+      accessToken: undefined, // to authenticate the api requests
+      openBookdetails: false, // displays the details page of the book on click of book image
+      book: undefined, // selected book to show its details in details page
+      requestDetails: undefined, // details of selected requests
+      requestedBook: false, // details of the book which is requested
+      requestId: undefined, // request id
     };
   }
+  // called when the page is loaded
   componentDidMount() {
-    const { data, getBooks, userData, getBookRequests } = this.props;
+    const { data, getBooks, getBookRequests } = this.props;
+    // check if book exists and add to books array or call get book api
     if (Array.isArray(data.books) && data.books.length) {
       this.setState({
         books: data.books,
@@ -35,14 +37,18 @@ class landingPageViews extends Component {
     } else {
       getBooks();
     }
+    // get access token from local storage
     this.setState({
       accessToken: JSON.parse(localStorage.getItem('accessToken')),
     });
+    // get all the book requests
     getBookRequests();
   }
 
+  // called when component updates
   componentDidUpdate(prevProps) {
     const { data } = this.props;
+    // show notification when added a new book
     if (prevProps.data.addedBook !== data.addedBook && data.addedBook) {
       this.setState({
         showSuccessNotification: true,
@@ -52,6 +58,7 @@ class landingPageViews extends Component {
         this.handleSnackbarClose();
       }, 6000);
     }
+    // show notification when requesting a book
     if (prevProps.data.requested !== data.requested && data.requested) {
       this.setState({
         showSuccessNotification: true,
@@ -62,6 +69,7 @@ class landingPageViews extends Component {
         this.handleSnackbarClose();
       }, 6000);
     }
+    // show notification when updating a request
     if (prevProps.data.updatedRequest !== data.updatedRequest && data.updatedRequest) {
       this.setState({
         showSuccessNotification: true,
@@ -72,6 +80,7 @@ class landingPageViews extends Component {
         this.handleSnackbarClose();
       }, 6000);
     }
+    // show notification when api fails
     if (prevProps.data.requestFailed !== data.requestFailed && data.requestFailed) {
       this.setState({
         showSuccessNotification: true,
@@ -82,28 +91,35 @@ class landingPageViews extends Component {
       }, 6000);
     }
   }
+  // on close of notification snack bar
   handleSnackbarClose = () => {
     this.setState({
       showSuccessNotification: false,
       message: '',
     });
   };
+
+  // onclick of add book button
   handleAddBookBtnClick = () => {
     this.setState({
       openAddBook: true,
     });
   };
 
+  // onclose of opened add book modal box
   handleClose = () => {
     this.setState({
       openAddBook: false,
     });
   };
+  // on click of add book from add book modal box to add a new book
   handleAddBook = (param) => {
     param['ownerId'] = this.props.userData.user._id;
     this.props.addBook(param);
     this.setState({ openAddBook: false });
   };
+
+  // openes book details page
   openBookDetails = (book, RequestedBook, requestId) => {
     this.setState({
       openBookdetails: true,
@@ -112,18 +128,22 @@ class landingPageViews extends Component {
       RequestedBook,
     });
   };
+  // onclose of details page
   onBookdetailsModalClose = () => {
     this.setState({
       openBookdetails: false,
       book: undefined,
     });
   };
+  // on request of a book
   onBookRequest = (book) => {
     this.props.requestBook({ bookId: book._id });
   };
+  // on update of book request
   onBookRequestUpdate = (id, action) => {
     this.props.updateBookRequest(id, action);
   };
+
   render() {
     const { history, data } = this.props;
     const {
@@ -144,17 +164,28 @@ class landingPageViews extends Component {
             </Button>
           </div>
         )}
-        <CardListComponent
-          books={data.books}
-          requestedBooks={data.requestedBook}
-          isLoading={false}
-          history={history}
-          currentTab={data.currentTab}
-          userData={this.props.userData.user}
-          showfilteredBooks={data.showfilteredBooks}
-          filteredBookData={data.filteredBooks}
-          onBookImageClick={this.openBookDetails}
-        />
+        {data.showfilteredBooks ? (
+          <CardListComponent
+            books={data.filteredBooks}
+            requestedBooks={data.requestedBook}
+            isLoading={false}
+            history={history}
+            currentTab={data.currentTab}
+            userData={this.props.userData.user}
+            onBookImageClick={this.openBookDetails}
+          />
+        ) : (
+          <CardListComponent
+            books={data.books}
+            requestedBooks={data.requestedBook}
+            isLoading={false}
+            history={history}
+            currentTab={data.currentTab}
+            userData={this.props.userData.user}
+            onBookImageClick={this.openBookDetails}
+          />
+        )}
+
         <AddBook
           openAddBook={openAddBook}
           handleClose={this.handleClose}
@@ -181,7 +212,6 @@ class landingPageViews extends Component {
               horizontal: 'left',
             }}
             open={showSuccessNotification}
-            // autoHideDuration={6000}
             onClose={this.handleSnackbarClose}
             onBlur={this.handleSnackbarClose}
             message={message}

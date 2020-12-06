@@ -38,12 +38,7 @@ const CardComponent = ({ book, isLoading, history, currentTab, RequestedBook, on
           )
         }
       />
-      <CardActionArea
-        component='span'
-        className='card-container'
-        key={book.id}
-        // onClick={() => history.push(`/${book.id}`)}
-      >
+      <CardActionArea component='span' className='card-container' key={book.id}>
         {isLoading && book.bookImage !== undefined ? (
           <Skeleton animation='wave' variant='rect' height={160} className={classes.media} />
         ) : (
