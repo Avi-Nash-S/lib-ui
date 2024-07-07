@@ -3,10 +3,6 @@ Scalability & Modularity are taken into consideration while developing this appl
 - Card View with skeletal Loading
 - Product Gallery
 
-### Landing Page:
-
-![Landing-Page](./src/static/screenshot-landingPage.jpg 'Landing Page')
-
 ### WorkFlow
 
 ```sh
